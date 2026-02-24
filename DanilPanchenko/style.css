@@ -1,0 +1,85 @@
+.retry-btn {
+	margin-top: 12px;
+	padding: 8px 22px;
+	background: #f44;
+	color: #fff;
+	border: 2px solid #c00;
+	border-radius: 6px;
+	font-weight: bold;
+	font-size: 1em;
+	cursor: pointer;
+	transition: 0.2s;
+	box-shadow: 0 2px 8px #0002;
+}
+.retry-btn:hover {
+	background: #c00;
+}
+
+body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background: #222;
+	color: #fff;
+	text-align: center;
+}
+
+h1 {
+	margin-top: 20px;
+}
+
+.controls {
+	margin: 15px;
+}
+
+button {
+	padding: 10px 20px;
+	margin: 5px;
+	background: #444;
+	border: 2px solid #888;
+	color: #fff;
+	cursor: pointer;
+	font-weight: bold;
+	border-radius: 6px;
+	transition: 0.2s;
+}
+button:hover {
+	background: #666;
+}
+
+#game {
+	display: grid;
+	justify-content: center;
+	margin: 20px auto;
+	gap: 2px;
+}
+
+.cell {
+	width: 32px;
+	height: 32px;
+	background: #333;
+	border: 1px solid #555;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	cursor: pointer;
+	user-select: none;
+	font-size: 1.1em;
+}
+.cell.revealed {
+	background: #bbb;
+	color: #222;
+	cursor: default;
+}
+.cell.mine {
+	background: #c00;
+	color: #fff;
+}
+.win {
+	color: #0f0;
+	font-size: 20px;
+}
+.lose {
+	color: #f00;
+	font-size: 20px;
+}
