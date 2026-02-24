@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <header class="game-header">
+            <div class="status-item" title="Прапорці">
+                <span class="icon">🚩</span>
+                <span id="flags-count">10</span>
+            </div>
+            
+            <button class="reset-button" id="reset-btn">Нова Гра</button>
+            
+            <div class="status-item" title="Час">
+                <span class="icon">⏱</span>
+                <span id="timer">010</span>
+            </div>
+        </header>
+
+        <main class="game-board" id="board">
+            <button class="cell"></button> 
+            <button class="cell revealed">1</button> 
+            <button class="cell revealed" style="color: blue;">2</button>
+            <button class="cell revealed" style="color: green;">3</button>
+            <button class="cell flag">🚩</button> 
+            <button class="cell mine">💣</button> 
+            <button class="cell mine exploded">💥</button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+        
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+ 
+        </main>
+    </div>
+
+</body>
+</html>
