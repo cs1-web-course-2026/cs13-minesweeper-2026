@@ -1,4 +1,25 @@
 
+document.addEventListener('DOMContentLoaded', function() {
+	const form = document.getElementById('proportion-form');
+	const aInput = document.getElementById('a');
+	const bInput = document.getElementById('b');
+	const cInput = document.getElementById('c');
+	const xInput = document.getElementById('x');
+
+	form.addEventListener('submit', function(e) {
+		e.preventDefault();
+		const a = parseFloat(aInput.value);
+		const b = parseFloat(bInput.value);
+		const c = parseFloat(cInput.value);
+		if (a === 0) {
+			xInput.value = 'Ділення на 0!';
+			return;
+		}
+		const x = (b * c) / a;
+		xInput.value = x;
+	});
+});
+
 let rows, cols, mines, board = [], gameOver = false;
 
 function startGame(r, c, m) {
@@ -50,13 +71,31 @@ function render() {
 			const cell = document.createElement("div");
 			cell.classList.add("cell");
 			cell.onclick = () => reveal(i, j, cell);
+			// Додаємо прапорець правою кнопкою
+			cell.oncontextmenu = (e) => {
+				e.preventDefault();
+				toggleFlag(i, j, cell);
+			};
 			game.appendChild(cell);
 		}
 	}
 }
+// Додаємо прапорці
+function toggleFlag(i, j, el) {
+	if (gameOver || board[i][j].revealed) return;
+	if (!board[i][j].flagged) {
+		board[i][j].flagged = true;
+		el.innerText = "🚩";
+		el.classList.add("flagged");
+	} else {
+		board[i][j].flagged = false;
+		el.innerText = "";
+		el.classList.remove("flagged");
+	}
+}
 
 function reveal(i, j, el) {
-	if (gameOver || board[i][j].revealed) return;
+	if (gameOver || board[i][j].revealed || board[i][j].flagged) return;
 	board[i][j].revealed = true;
 	el.classList.add("revealed");
 	if (board[i][j].mine) {
