@@ -1,0 +1,196 @@
+body {
+	background: #f8fafc;
+	color: #222;
+	font-family: 'Segoe UI', Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	text-align: center;
+	margin-top: 24px;
+	color: #3b82f6;
+	letter-spacing: 2px;
+}
+
+.controls {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	margin: 20px 0 10px 0;
+}
+
+.controls button {
+	background: #e0e7ef;
+	color: #2563eb;
+	border: none;
+	border-radius: 6px;
+	padding: 8px 18px;
+	font-size: 1rem;
+	cursor: pointer;
+	box-shadow: 0 2px 8px #e0e7ef80;
+	transition: background 0.2s, color 0.2s;
+}
+.controls button:hover {
+	background: #dbeafe;
+	color: #1d4ed8;
+}
+
+#game {
+	display: grid;
+	justify-content: center;
+	gap: 2px;
+	margin: 0 auto;
+	background: #e0e7ef;
+	padding: 16px;
+	border-radius: 12px;
+	box-shadow: 0 4px 24px #e0e7ef80;
+	max-width: 90vw;
+}
+
+.cell {
+	width: 32px;
+	height: 32px;
+	background: #f1f5f9;
+	border-radius: 4px;
+	border: 1px solid #cbd5e1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.2rem;
+	cursor: pointer;
+	user-select: none;
+	transition: background 0.2s, box-shadow 0.2s;
+}
+.cell:hover {
+	background: #e0e7ef;
+	box-shadow: 0 0 4px #60a5fa80;
+}
+.cell.revealed {
+	background: #fff;
+	color: #222;
+	cursor: default;
+	box-shadow: none;
+}
+.cell.mine {
+	background: #fee2e2;
+	color: #dc2626;
+}
+.cell.flagged {
+	background: #fef9c3;
+	color: #eab308;
+}
+
+#status {
+	text-align: center;
+	margin: 12px 0 8px 0;
+	font-size: 1.1rem;
+}
+.win {
+	color: #16a34a;
+	font-weight: bold;
+}
+.lose {
+	color: #dc2626;
+	font-weight: bold;
+}
+.retry-btn {
+	background: #e0e7ef;
+	color: #2563eb;
+	border: none;
+	border-radius: 6px;
+	padding: 6px 16px;
+	font-size: 1rem;
+	cursor: pointer;
+	margin-top: 10px;
+	transition: background 0.2s, color 0.2s;
+}
+.retry-btn:hover {
+	background: #dbeafe;
+	color: #1d4ed8;
+}
+.retry-btn {
+	margin-top: 12px;
+	padding: 8px 22px;
+	background: #f44;
+	color: #fff;
+	border: 2px solid #c00;
+	border-radius: 6px;
+	font-weight: bold;
+	font-size: 1em;
+	cursor: pointer;
+	transition: 0.2s;
+	box-shadow: 0 2px 8px #0002;
+}
+.retry-btn:hover {
+	background: #c00;
+}
+
+body {
+	margin: 0;
+	font-family: Arial, sans-serif;
+	background: #222;
+	color: #fff;
+	text-align: center;
+}
+
+h1 {
+	margin-top: 20px;
+}
+
+.controls {
+	margin: 15px;
+}
+
+button {
+	padding: 10px 20px;
+	margin: 5px;
+	background: #444;
+	border: 2px solid #888;
+	color: #fff;
+	cursor: pointer;
+	font-weight: bold;
+	border-radius: 6px;
+	transition: 0.2s;
+}
+button:hover {
+	background: #666;
+}
+
+#game {
+	display: grid;
+	justify-content: center;
+	margin: 20px auto;
+	gap: 2px;
+}
+
+.cell {
+	width: 32px;
+	height: 32px;
+	background: #333;
+	border: 1px solid #555;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	cursor: pointer;
+	user-select: none;
+	font-size: 1.1em;
+}
+.cell.revealed {
+	background: #bbb;
+	color: #222;
+	cursor: default;
+}
+.cell.mine {
+	background: #c00;
+	color: #fff;
+}
+.win {
+	color: #0f0;
+	font-size: 20px;
+}
+.lose {
+	color: #f00;
+	font-size: 20px;
+}
