@@ -1,3 +1,15 @@
+/* 1. Змінні та загальні стилі */
+:root {
+    --primary-blue: rgba(36, 89, 186, 0.6);
+    --primary-pink: rgba(206, 31, 124, 0.48);
+    --btn-hover: rgba(6, 59, 159, 0.5);
+    --cell-bg: #adb5bd;
+    --cell-revealed-bg: #e9ecef;
+    --focus-color: #1971c2;
+    /* Розміри сітки (запит Copilot) */
+    --grid-cols: 5;
+    --cell-size: 40px;
+}
 
 * {
     box-sizing: border-box;
@@ -17,22 +29,22 @@ body {
 
 /* 2. Основний контейнер */
 .game-container {
-    background-color: rgba(36, 89, 186, 0.6); /* Твій колір #2459ba99 */
+    background-color: var(--primary-blue);
     padding: 20px;
     border-radius: 12px;
     box-shadow: -10px 10px 20px rgba(55, 15, 217, 0.15);
     border: 3px solid #ffffff;
-    display: inline-block; /* Щоб контейнер стискався під розмір сітки */
+    display: inline-block;
 }
 
-/* 3. Хедер (Панель керування) */
+/* 3. Хедер */
 .game-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
     padding: 10px 15px;
-    background: rgba(206, 31, 124, 0.48); /* Твій колір #ce1f7c7b */
+    background: var(--primary-pink);
     border-radius: 10px;
     border: 3px solid #ffffff;
     gap: 20px;
@@ -40,7 +52,7 @@ body {
 
 .status-item {
     font-weight: bold;
-    font-size: 1.5rem; /* Трохи зменшив, щоб не розривало хедер */
+    font-size: 1.5rem;
     color: #000000;
     display: flex;
     align-items: center;
@@ -50,7 +62,7 @@ body {
 
 .reset-button {
     padding: 10px 20px;
-    background-color: rgba(36, 89, 186, 0.36); /* Твій колір #2459ba5d */
+    background-color: rgba(36, 89, 186, 0.36);
     color: #ffffff;
     border: 2px solid #ffffff;
     border-radius: 6px;
@@ -62,19 +74,25 @@ body {
 }
 
 .reset-button:hover {
-    background-color: rgba(6, 59, 159, 0.5);
+    background-color: var(--btn-hover);
     transform: scale(1.05);
+}
+
+/* Додано фокус для доступності (запит Copilot) */
+.reset-button:focus-visible {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
 }
 
 .reset-button:active {
     transform: translateY(2px);
 }
 
-/* 4. Ігрове поле (СІТКА) */
+/* 4. Ігрове поле */
 .game-board {
     display: grid;
-    grid-template-columns: repeat(5, 40px);
-    grid-auto-rows: 40px; 
+    grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+    grid-auto-rows: var(--cell-size);
     gap: 5px;
     justify-content: center;
     padding: 20px;
@@ -82,9 +100,9 @@ body {
 
 /* 5. Клітинка */
 .cell {
-    width: 40px;
-    height: 40px;
-    background-color: #adb5bd;
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background-color: var(--cell-bg);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -94,29 +112,38 @@ body {
     font-weight: bold;
     font-size: 1rem;
     transition: background-color 0.1s;
-    /* Ефект об'єму */
     box-shadow: inset -2px -2px 0px rgba(0,0,0,0.2), 
                 inset 2px 2px 0px rgba(255,255,255,0.4);
     user-select: none;
+}
+
+/* Фокус для клітинок */
+.cell:focus-visible {
+    outline: 3px solid var(--focus-color);
+    outline-offset: -4px; /* щоб рамка була всередині */
 }
 
 .cell:hover:not(.revealed) {
     background-color: #ced4da;
 }
 
-.cell:active:not(.revealed) {
-    box-shadow: inset 2px 2px 0px rgba(0,0,0,0.2);
-}
-
 /* Стани клітинок */
 .cell.revealed {
-    background-color: #e9ecef;
+    background-color: var(--cell-revealed-bg);
     box-shadow: none;
     border: 1px solid #dee2e6;
     cursor: default;
+    color: #010d19; /* Об'єднано сюди (запит Yaroslav666nn) */
 }
 
-.cell.flag { background-color: #adb5bd; }
+.cell.flag { background-color: var(--cell-bg); }
+
+/* Підсвітка невірного прапорця (запит iamredl-lab) */
+.cell.flag-wrong {
+    background-color: #ffbaba;
+    border: 2px solid #ff0000;
+}
+
 .cell.mine { background-color: #dee2e6; }
 
 .cell.exploded {
@@ -124,5 +151,7 @@ body {
     border: 2px solid #fa5252;
 }
 
-/* Кольори для цифр (опціонально) */
-.cell.revealed { color: #010d19; }
+/* Кольори цифр замість інлайн-стилів (запит Copilot) */
+.number-1 { color: blue; }
+.number-2 { color: green; }
+.number-3 { color: red; }
