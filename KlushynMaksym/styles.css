@@ -1,0 +1,153 @@
+/* CSS Змінні (Палітра та тіні) */
+:root {
+    --bg-page: #f4f7f6;
+    --bg-app: #ffffff;
+    
+    --cell-closed: #e2e8f0;
+    --cell-hover: #cbd5e1;
+    --cell-open: #f8fafc;
+    
+    --bg-exploded: #fee2e2;
+    --bg-wrong: #ffedd5;
+    
+    --c-1: #3b82f6;
+    --c-2: #10b981;
+    --c-3: #ef4444;
+    --c-4: #6366f1;
+    --c-5: #8b5cf6;
+    --c-6: #14b8a6;
+    --c-7: #334155;
+    --c-8: #000000;
+
+    --shadow-app: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --shadow-cell: inset 0 -2px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Базові налаштування */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-page);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #334155;
+}
+
+/* Головний контейнер гри */
+.minesweeper-app {
+    background-color: var(--bg-app);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-app);
+    width: 100%;
+    max-width: 420px; 
+}
+
+/* Хедер */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--cell-open);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #e2e8f0;
+}
+
+.counter {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-family: 'Segoe UI', monospace;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-restart {
+    font-size: 1.8rem;
+    width: 50px;
+    height: 50px;
+    background-color: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.btn-restart:hover {
+    background-color: #e2e8f0;
+    transform: scale(1.05);
+}
+
+.btn-restart:active {
+    transform: scale(0.95);
+}
+
+/* Ігрове поле */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 4px;
+    background-color: var(--bg-app);
+}
+
+/* Стани клітинок */
+.cell {
+    background-color: var(--cell-closed);
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: var(--shadow-cell);
+    transition: background-color 0.1s;
+}
+
+.cell:hover:not(.open) {
+    background-color: var(--cell-hover);
+}
+
+.cell.open {
+    background-color: var(--cell-open);
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+    cursor: default;
+}
+
+.cell.exploded {
+    background-color: var(--bg-exploded);
+    border-color: #fca5a5;
+}
+
+.cell.wrong-flag {
+    background-color: var(--bg-wrong);
+    border-color: #fdba74;
+}
+
+.cell.num-1 { color: var(--c-1); }
+.cell.num-2 { color: var(--c-2); }
+.cell.num-3 { color: var(--c-3); }
+.cell.num-4 { color: var(--c-4); }
+.cell.num-5 { color: var(--c-5); }
+.cell.num-6 { color: var(--c-6); }
+.cell.num-7 { color: var(--c-7); }
+.cell.num-8 { color: var(--c-8); }
