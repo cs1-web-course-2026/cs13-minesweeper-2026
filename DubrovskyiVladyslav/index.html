@@ -7,17 +7,16 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<script src="scripts.js"></script>
 <div class="game-wrapper">
   <header class="game-header">
     <div class="status-panel">
-      <div class="lcd-display">010</div>
-      <button class="reset-btn">🙂</button>
-      <div class="lcd-display">000</div>
+      <div id="mine-count" class="lcd-display">015</div>
+      <button id="reset-btn" class="reset-btn">🙂</button>
+      <div id="timer" class="lcd-display">000</div>
     </div>
   </header>
 
-  <main class="game-board">
+  <main id="game-board" class="game-board">
     <div class="cell"></div>
     <div class="cell open num-1">1</div>
     <div class="cell open num-2">2</div>
@@ -40,5 +39,7 @@
     <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
   </main>
 </div>
+
+<script src="scripts.js"></script>
 </body>
 </html>
