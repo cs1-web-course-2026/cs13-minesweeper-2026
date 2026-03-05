@@ -3,6 +3,10 @@
     --border-light: #ffffff;
     --border-dark: #7b7b7b;
     --lcd-red: #ff0000;
+
+    /* Змінні для гнучкості (зауваження Copilot) */
+    --cell-size: 30px;
+    --grid-columns: 10;
 }
 
 body {
@@ -11,7 +15,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
 }
@@ -61,7 +65,6 @@ body {
     align-items: center;
     justify-content: center;
     outline: none;
-    transition: background-color 0.1s;
 }
 
 .reset-btn:hover {
@@ -75,25 +78,33 @@ body {
 /* ІГРОВЕ ПОЛЕ */
 .game-board {
     display: grid;
-    /* Розміри сітки динамічно підставляються через JS, але залишаємо базу */
-    grid-template-columns: repeat(10, 30px);
-    grid-template-rows: repeat(10, 30px);
+    /* Значення за замовчуванням, JS оновить їх динамічно через style.gridTemplateColumns */
+    grid-template-columns: repeat(var(--grid-columns), var(--cell-size));
     border: 3px inset var(--border-light);
     background-color: var(--border-dark);
 }
 
+/* КЛІТИНКА (тепер адаптована під тег <button>) */
 .cell {
-    width: 30px;
-    height: 30px;
+    width: var(--cell-size);
+    height: var(--cell-size);
     background-color: var(--bg-color);
     border: 3px outset var(--border-light);
+
+    /* Скидання дефолтних стилів кнопки */
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: bold;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
     box-sizing: border-box;
     user-select: none;
-    cursor: pointer; /* Додано для Lab 3 */
+    cursor: pointer;
+    outline: none;
 }
 
 /* СТАН КЛІТИНОК */
@@ -118,6 +129,12 @@ body {
     border: 1px solid var(--border-dark);
 }
 
-/* Кольори цифр (Класична палітра Minesweeper) */
+/* Кольори цифр (Класична палітра Minesweeper) - зауваження Copilot виправлено */
 .num-1 { color: #0000ff; } /* Blue */
-.num
+.num-2 { color: #008000; } /* Green */
+.num-3 { color: #ff0000; } /* Red */
+.num-4 { color: #000080; } /* Dark Blue */
+.num-5 { color: #800000; } /* Maroon */
+.num-6 { color: #008080; } /* Teal */
+.num-7 { color: #000000; } /* Black */
+.num-8 { color: #808080; } /* Gray */

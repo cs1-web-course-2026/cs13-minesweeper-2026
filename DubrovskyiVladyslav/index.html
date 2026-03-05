@@ -3,41 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minesweeper UI - Лабораторна 1</title>
+  <title>Minesweeper DOM - Лабораторна 3</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="game-wrapper">
   <header class="game-header">
     <div class="status-panel">
-      <div id="mine-count" class="lcd-display">015</div>
-      <button id="reset-btn" class="reset-btn">🙂</button>
+      <div id="mine-count" class="lcd-display">000</div>
+      <button id="reset-btn" class="reset-btn" aria-label="Почати нову гру" title="Почати нову гру" type="button">🙂</button>
       <div id="timer" class="lcd-display">000</div>
     </div>
   </header>
 
-  <main id="game-board" class="game-board">
-    <div class="cell"></div>
-    <div class="cell open num-1">1</div>
-    <div class="cell open num-2">2</div>
-    <div class="cell flag"></div>
-    <div class="cell mine"></div>
-    <div class="cell mine exploded"></div>
-    <div class="cell open num-3">3</div>
-    <div class="cell"></div>
-    <div class="cell flag"></div>
-    <div class="cell"></div>
-
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-    <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
-  </main>
+  <main id="game-board" class="game-board"></main>
 </div>
 
 <script src="scripts.js"></script>

@@ -1,14 +1,14 @@
 class Minesweeper {
     static STATUS = { PROCESS: 'process', WIN: 'win', LOSE: 'lose' };
     static CELL_TYPE = { EMPTY: 'empty', MINE: 'mine' };
-    static CELL_STATE = { CLOSED: 'closed', OPENED: 'opened', FLAGGED: 'flagged' };
+    static CELL_STATE = { CLOSED: 'closed', OPENED: 'open', FLAGGED: 'flagged' };
 
     constructor(rows = 10, cols = 10, minesCount = 15) {
         this.rows = rows;
         this.cols = cols;
-        this.minesCount = minesCount;
+        // Клемпінг кількості мін (не більше ніж клітинок на полі - 1)
+        this.minesCount = Math.min(minesCount, rows * cols - 1);
 
-        // Пошук елементів DOM
         this.boardElement = document.getElementById('game-board');
         this.timerElement = document.getElementById('timer');
         this.mineCountElement = document.getElementById('mine-count');
@@ -18,20 +18,23 @@ class Minesweeper {
         this.reset();
     }
 
-    /**
-     * Скидання стану та створення нової гри
-     */
     reset() {
         this.status = Minesweeper.STATUS.PROCESS;
         this.gameTime = 0;
-        if (this.timerId) clearInterval(this.timerId);
+        if (this.timerId) {
+            clearInterval(this.timerId);
+        }
 
         this.field = this._generateField();
         this._countAllNeighbors();
-        this._startTimer();
 
-        this.render(); // Первинний рендеринг сітки
-        this.updateUI(); // Оновлення інтерфейсу
+        // Динамічне налаштування сітки через inline-стилі (фікс зауваження Copilot)
+        this.boardElement.style.gridTemplateColumns = `repeat(${this.cols}, var(--cell-size, 30px))`;
+        this.boardElement.style.gridTemplateRows = `repeat(${this.rows}, var(--cell-size, 30px))`;
+
+        this._startTimer();
+        this.render();
+        this.updateUI();
     }
 
     _generateField() {
@@ -43,63 +46,79 @@ class Minesweeper {
             }))
         );
 
-        let planted = 0;
-        while (planted < this.minesCount) {
-            const r = Math.floor(Math.random() * this.rows);
-            const c = Math.floor(Math.random() * this.cols);
-            if (field[r][c].type !== Minesweeper.CELL_TYPE.MINE) {
-                field[r][c].type = Minesweeper.CELL_TYPE.MINE;
-                planted++;
+        let plantedMinesCount = 0;
+        while (plantedMinesCount < this.minesCount) {
+            const rowIndex = Math.floor(Math.random() * this.rows);
+            const colIndex = Math.floor(Math.random() * this.cols);
+
+            if (field[rowIndex][colIndex].type !== Minesweeper.CELL_TYPE.MINE) {
+                field[rowIndex][colIndex].type = Minesweeper.CELL_TYPE.MINE;
+                plantedMinesCount++;
             }
         }
+
         return field;
     }
 
     _countAllNeighbors() {
-        this._forEachCell((r, c) => {
-            if (this.field[r][c].type === Minesweeper.CELL_TYPE.MINE) return;
-            this.field[r][c].neighborMines = this._getNeighbors(r, c)
-                .filter(([nr, nc]) => this.field[nr][nc].type === Minesweeper.CELL_TYPE.MINE).length;
+        this._forEachCell((row, col) => {
+            if (this.field[row][col].type === Minesweeper.CELL_TYPE.MINE) {
+                return;
+            }
+
+            const neighbors = this._getNeighbors(row, col);
+            this.field[row][col].neighborMines = neighbors.filter(([nRow, nCol]) =>
+                this.field[nRow][nCol].type === Minesweeper.CELL_TYPE.MINE
+            ).length;
         });
     }
 
-    _getNeighbors(r, c) {
+    _getNeighbors(row, col) {
         const neighbors = [];
-        for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-                if (dr === 0 && dc === 0) continue;
-                const nr = r + dr, nc = c + dc;
-                if (nr >= 0 && nr < this.rows && nc >= 0 && nc < this.cols) neighbors.push([nr, nc]);
+        for (let dRow = -1; dRow <= 1; dRow++) {
+            for (let dCol = -1; dCol <= 1; dCol++) {
+                if (dRow === 0 && dCol === 0) {
+                    continue;
+                }
+
+                const neighbourRow = row + dRow;
+                const neighbourCol = col + dCol;
+
+                if (neighbourRow >= 0 && neighbourRow < this.rows && neighbourCol >= 0 && neighbourCol < this.cols) {
+                    neighbors.push([neighbourRow, neighbourCol]);
+                }
             }
         }
+
         return neighbors;
     }
 
     _forEachCell(callback) {
-        for (let r = 0; r < this.rows; r++) {
-            for (let c = 0; c < this.cols; c++) callback(r, c);
+        for (let row = 0; row < this.rows; row++) {
+            for (let col = 0; col < this.cols; col++) {
+                callback(row, col);
+            }
         }
     }
 
-    /**
-     * Рендеринг ігрового поля: динамічне створення HTML-структури
-     */
     render() {
-        this.boardElement.innerHTML = ''; // Очищення перед рендерингом
+        this.boardElement.innerHTML = '';
 
-        this._forEachCell((r, c) => {
-            const data = this.field[r][c];
-            const cell = document.createElement('div');
+        this._forEachCell((row, col) => {
+            const data = this.field[row][col];
+            const cell = document.createElement('button'); // Accessibility fix
             cell.classList.add('cell');
-            cell.dataset.row = r;
-            cell.dataset.col = c;
+            cell.type = 'button';
+            cell.dataset.row = row;
+            cell.dataset.col = col;
 
-            // Налаштування класів згідно з твоїм CSS
             if (data.state === Minesweeper.CELL_STATE.OPENED) {
                 cell.classList.add('open');
                 if (data.type === Minesweeper.CELL_TYPE.MINE) {
                     cell.classList.add('mine');
-                    if (this.status === Minesweeper.STATUS.LOSE) cell.classList.add('exploded');
+                    if (this.status === Minesweeper.STATUS.LOSE) {
+                        cell.classList.add('exploded');
+                    }
                 } else if (data.neighborMines > 0) {
                     cell.textContent = data.neighborMines;
                     cell.classList.add(`num-${data.neighborMines}`);
@@ -107,29 +126,30 @@ class Minesweeper {
             } else if (data.state === Minesweeper.CELL_STATE.FLAGGED) {
                 cell.classList.add('flag');
             }
+
             this.boardElement.appendChild(cell);
         });
     }
 
-    /**
-     * Оновлення динамічних елементів: Таймер та Лічильник
-     */
     updateUI() {
         const format = (n) => String(Math.max(0, n)).padStart(3, '0');
         this.timerElement.textContent = format(this.gameTime);
 
-        const flags = this.field.flat().filter(c => c.state === Minesweeper.CELL_STATE.FLAGGED).length;
-        this.mineCountElement.textContent = format(this.minesCount - flags);
+        const flagsCount = this.field.flat().filter(c => c.state === Minesweeper.CELL_STATE.FLAGGED).length;
+        this.mineCountElement.textContent = format(this.minesCount - flagsCount);
 
-        // Візуальне сповіщення через кнопку
-        if (this.status === Minesweeper.STATUS.WIN) this.resetBtn.textContent = '😎';
-        else if (this.status === Minesweeper.STATUS.LOSE) this.resetBtn.textContent = '😵';
-        else this.resetBtn.textContent = '🙂';
+        if (this.status === Minesweeper.STATUS.WIN) {
+            this.resetBtn.textContent = '😎';
+        } else if (this.status === Minesweeper.STATUS.LOSE) {
+            this.resetBtn.textContent = '😵';
+        } else {
+            this.resetBtn.textContent = '🙂';
+        }
     }
 
-    openCell(r, c) {
+    openCell(row, col) {
         if (this.status !== Minesweeper.STATUS.PROCESS) return;
-        const cell = this.field[r][c];
+        const cell = this.field[row][col];
         if (cell.state !== Minesweeper.CELL_STATE.CLOSED) return;
 
         if (cell.type === Minesweeper.CELL_TYPE.MINE) {
@@ -139,15 +159,17 @@ class Minesweeper {
 
         cell.state = Minesweeper.CELL_STATE.OPENED;
         if (cell.neighborMines === 0) {
-            this._getNeighbors(r, c).forEach(([nr, nc]) => this.openCell(nr, nc));
+            this._getNeighbors(row, col).forEach(([nRow, nCol]) => this.openCell(nRow, nCol));
         }
+
         this._checkWin();
     }
 
-    toggleFlag(r, c) {
+    toggleFlag(row, col) {
         if (this.status !== Minesweeper.STATUS.PROCESS) return;
-        const cell = this.field[r][c];
+        const cell = this.field[row][col];
         if (cell.state === Minesweeper.CELL_STATE.OPENED) return;
+
         cell.state = cell.state === Minesweeper.CELL_STATE.FLAGGED ?
             Minesweeper.CELL_STATE.CLOSED : Minesweeper.CELL_STATE.FLAGGED;
     }
@@ -156,17 +178,19 @@ class Minesweeper {
         this.timerId = setInterval(() => {
             if (this.status === Minesweeper.STATUS.PROCESS) {
                 this.gameTime++;
-                this.updateUI(); // Оновлення таймера в реальному часі
+                this.updateUI();
             }
         }, 1000);
     }
 
     _checkWin() {
-        const win = this.field.flat().every(c =>
+        const isWon = this.field.flat().every(c =>
             (c.type === Minesweeper.CELL_TYPE.MINE && c.state !== Minesweeper.CELL_STATE.OPENED) ||
             (c.type === Minesweeper.CELL_TYPE.EMPTY && c.state === Minesweeper.CELL_STATE.OPENED)
         );
-        if (win) this._terminate(Minesweeper.STATUS.WIN);
+        if (isWon) {
+            this._terminate(Minesweeper.STATUS.WIN);
+        }
     }
 
     _terminate(status) {
@@ -181,32 +205,29 @@ class Minesweeper {
         this.updateUI();
     }
 
-    /**
-     * Обробка подій користувача (Event Handling)
-     */
     _setupEvents() {
-        // Лівий клік: Відкриття клітинки
         this.boardElement.addEventListener('click', (e) => {
             const el = e.target.closest('.cell');
-            if (el) {
+            if (el && this.status === Minesweeper.STATUS.PROCESS) {
                 this.openCell(Number(el.dataset.row), Number(el.dataset.col));
-                this.render();
-                this.updateUI();
+                // Рендеримо тільки якщо гра не закінчилася в _terminate
+                if (this.status === Minesweeper.STATUS.PROCESS) {
+                    this.render();
+                    this.updateUI();
+                }
             }
         });
 
-        // Правий клік: Встановлення прапорця та блокування меню
         this.boardElement.addEventListener('contextmenu', (e) => {
             e.preventDefault();
             const el = e.target.closest('.cell');
-            if (el) {
+            if (el && this.status === Minesweeper.STATUS.PROCESS) {
                 this.toggleFlag(Number(el.dataset.row), Number(el.dataset.col));
                 this.render();
                 this.updateUI();
             }
         });
 
-        // Кнопка Рестарт
         this.resetBtn.addEventListener('click', () => this.reset());
     }
 }
