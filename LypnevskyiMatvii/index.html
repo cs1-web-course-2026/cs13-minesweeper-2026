@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-wrapper">
+      <header class="game-header">
+        <div class="header-panel">
+          <div class="counter flag-counter" aria-label="Flags remaining">
+            <span class="counter-icon">🚩</span>
+            <span class="counter-value" id="flag-count">010</span>
+          </div>
+
+          <button class="new-game-btn" id="new-game-btn" aria-label="New game">
+            <span class="new-game-icon">😀</span>
+          </button>
+
+          <div class="counter timer" aria-label="Elapsed time">
+            <span class="counter-value" id="timer">000</span>
+            <span class="counter-icon">⏱</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="game-board" aria-label="Minesweeper board">
+        <div class="board-grid" id="board-grid" role="grid">
+
+          <!-- Row 1 -->
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+          <!-- Row 2 -->
+          <div class="cell cell--open cell--empty" role="gridcell" aria-label="Cell empty"></div>
+          <div class="cell cell--open cell--number cell--1" role="gridcell" aria-label="Cell 1">1</div>
+          <div class="cell cell--open cell--number cell--2" role="gridcell" aria-label="Cell 2">2</div>
+          <div class="cell cell--open cell--number cell--3" role="gridcell" aria-label="Cell 3">3</div>
+          <div class="cell cell--open cell--number cell--4" role="gridcell" aria-label="Cell 4">4</div>
+          <div class="cell cell--open cell--number cell--5" role="gridcell" aria-label="Cell 5">5</div>
+          <div class="cell cell--open cell--number cell--6" role="gridcell" aria-label="Cell 6">6</div>
+          <div class="cell cell--open cell--number cell--7" role="gridcell" aria-label="Cell 7">7</div>
+          <div class="cell cell--open cell--number cell--8" role="gridcell" aria-label="Cell 8">8</div>
+
+          <!-- Row 3 -->
+          <div class="cell cell--flagged" role="gridcell" aria-label="Cell flagged"></div>
+          <div class="cell cell--flagged cell--flagged-mine" role="gridcell" aria-label="Cell flagged with mine"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+          <!-- Row 4 -->
+          <div class="cell cell--mine" role="gridcell" aria-label="Cell mine"></div>
+          <div class="cell cell--mine cell--mine-hit" role="gridcell" aria-label="Cell mine hit"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+          <!-- Row 5 -->
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+          <!-- Row 6 -->
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+          <!-- Row 7 -->
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+          <!-- Row 8 -->
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+          <!-- Row 9 -->
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+
+        </div>
+      </section>
+
+      <footer class="game-legend">
+        <h2 class="legend-title">Стани клітинок</h2>
+        <ul class="legend-list">
+          <li class="legend-item">
+            <div class="cell cell--closed legend-cell"></div>
+            <span>Закрита</span>
+          </li>
+          <li class="legend-item">
+            <div class="cell cell--open cell--empty legend-cell"></div>
+            <span>Відкрита порожня</span>
+          </li>
+          <li class="legend-item">
+            <div class="cell cell--open cell--number cell--1 legend-cell">1</div>
+            <span>Відкрита з числом</span>
+          </li>
+          <li class="legend-item">
+            <div class="cell cell--flagged legend-cell"></div>
+            <span>Прапорець (без міни)</span>
+          </li>
+          <li class="legend-item">
+            <div class="cell cell--flagged cell--flagged-mine legend-cell"></div>
+            <span>Прапорець (з міною)</span>
+          </li>
+          <li class="legend-item">
+            <div class="cell cell--mine legend-cell"></div>
+            <span>Міна</span>
+          </li>
+          <li class="legend-item">
+            <div class="cell cell--mine cell--mine-hit legend-cell"></div>
+            <span>Натиснута міна</span>
+          </li>
+        </ul>
+      </footer>
+    </main>
+  </body>
+</html>
