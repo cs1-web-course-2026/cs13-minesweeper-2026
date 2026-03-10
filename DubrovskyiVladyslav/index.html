@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper DOM - Лабораторна 3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="game-wrapper">
+  <header class="game-header">
+    <div class="status-panel">
+      <div id="mine-count" class="lcd-display">000</div>
+      <button id="reset-btn" class="reset-btn" aria-label="Почати нову гру" title="Почати нову гру" type="button">🙂</button>
+      <div id="timer" class="lcd-display">000</div>
+    </div>
+  </header>
+
+  <main id="game-board" class="game-board"></main>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
