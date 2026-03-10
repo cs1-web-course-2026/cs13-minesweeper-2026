@@ -1,0 +1,92 @@
+body {
+    background: #4cfb4c;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+.game {
+    background: #1E90FF;
+    padding: 10px;
+    border: 4px solid #0000FF;
+}
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #00BFFF;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.counter,
+.timer {
+    background: #E0FFFF;
+    color: #C71585;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+.restart {       
+    font-size: 20px;
+    cursor: pointer;
+}
+.field {
+    display: grid;
+    grid-template-columns: repeat(6, 30px);
+    grid-template-rows: repeat(5, 30px);
+    gap: 2px;
+}
+.cell {
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+
+    display: grid;
+    place-items: center;
+
+    font-size: 18px;
+    user-select: none;
+}
+.cell.closed {
+    background: #EE82EE;
+    border-top: 2px solid white;
+    border-left: 2px solid white;
+    border-right: 2px solid #FF00FF;
+    border-bottom: 2px solid #8B008B;
+    cursor: pointer;
+}
+.cell {
+    width: 30px;
+    height: 30px;
+    background: #bbb;
+    border: 2px solid #eee;
+}
+.opened {
+    background: #FF00FF;
+    border: 2px solid #8B008B;
+}
+.flag {
+    background: #bbb;
+    position: relative;
+}
+
+.flag::after {
+    content: "🌸";
+;
+}
+.mine {
+    background: #FF00FF;
+}
+
+.mine::after {
+    content: "🐰";
+    position: absolute;
+}
+.cell.mine-hit {
+    background: red;
+    border: 1px solid #FF00FF;
+}
+
+.mine-hit::after {
+    content: "🐰";
+}
