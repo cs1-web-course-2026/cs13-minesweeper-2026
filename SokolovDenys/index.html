@@ -7,19 +7,19 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+    <script src="script.js"></script>
     <div class="game-container">
         <header class="game-header">
-            <div class="status-item" title="Прапорці" aria-label="Кількість прапорців">
-                <span class="icon" aria-hidden="true">🚩</span>
-                <span id="flags-count">10</span>
+            <div class="status-item" title="Прапорці">
+                <span class="icon">🚩</span>
+                <span id="flags-count">0</span>
             </div>
             
             <button class="reset-button" id="reset-btn">Нова Гра</button>
             
-            <div class="status-item" title="Час" aria-label="Минуло часу">
-                <span class="icon" aria-hidden="true">⏱</span>
-                <span id="timer">010</span>
+            <div class="status-item" title="Час">
+                <span class="icon">⏱</span>
+                <span id="game-timer">0</span>
             </div>
         </header>
 
@@ -51,6 +51,14 @@
             <button class="cell"></button>
             <button class="cell"></button>
         </main>
+    </div>
+    
+    <div id="game-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Результат</h2>
+            <p id="modal-message">Опис результату</p>
+            <button onclick="resetGame(); closeModal();" class="reset-button">Грати знову</button>
+        </div>
     </div>
 
 </body>
