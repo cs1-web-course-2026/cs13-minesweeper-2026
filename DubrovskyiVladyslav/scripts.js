@@ -35,6 +35,8 @@ class Minesweeper {
         this._startTimer();
         this.render();
         this.updateUI();
+
+        console.log(`🎮 Гра ініціалізована: ${this.rows}x${this.cols}, мін: ${this.minesCount}`);
     }
 
     _generateField() {
@@ -54,6 +56,15 @@ class Minesweeper {
             if (field[rowIndex][colIndex].type !== Minesweeper.CELL_TYPE.MINE) {
                 field[rowIndex][colIndex].type = Minesweeper.CELL_TYPE.MINE;
                 plantedMinesCount++;
+        // Розстановка мін через генератор випадкових унікальних координат
+        let planted = 0;
+        while (planted < this.minesCount) {
+            const row = Math.floor(Math.random() * this.rows);
+            const col = Math.floor(Math.random() * this.cols);
+
+            if (field[row][col].type !== Minesweeper.CELL_TYPE.MINE) {
+                field[row][col].type = Minesweeper.CELL_TYPE.MINE;
+                planted++;
             }
         }
 
@@ -154,6 +165,7 @@ class Minesweeper {
 
         if (cell.type === Minesweeper.CELL_TYPE.MINE) {
             this._terminate(Minesweeper.STATUS.LOSE);
+
             return;
         }
 
