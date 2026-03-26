@@ -1,212 +1,248 @@
-const gameState = {
+// 0. Константи (Enums) - запобігають помилкам у рядках
+const GAME_STATUS = {
+    PROCESS: 'process',
+    WIN: 'win',
+    LOSE: 'lose',
+  };
+  
+  const CELL_TYPE = {
+    EMPTY: 'empty',
+    MINE: 'mine',
+  };
+  
+  const CELL_STATE = {
+    CLOSED: 'closed',
+    OPENED: 'opened',
+    FLAGGED: 'flagged',
+  };
+  
+  // Константи для обходу сусідів (прибираємо магічні цикли -1..1)
+  const DIRECTIONS = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [0, -1],           [0, 1],
+    [1, -1],  [1, 0],  [1, 1],
+  ];
+  
+  const gameState = {
     rows: 5,
     cols: 5,
     minesCount: 5,
-    status: 'process',
+    status: GAME_STATUS.PROCESS,
     gameTime: 0,
     timerId: null,
     field: []
-};
-
-// 1. Генерація поля
-function generateField(rows, cols, minesCount) {
+  };
+  
+  // 1. Генерація поля
+  function generateField(rows, cols, minesCount) {
     gameState.field = Array.from({ length: rows }, () =>
-        Array.from({ length: cols }, () => ({
-            type: 'empty',
-            neighborMines: 0,
-            state: 'closed'
-        }))
+      Array.from({ length: cols }, () => ({
+        type: CELL_TYPE.EMPTY,
+        neighborMines: 0,
+        state: CELL_STATE.CLOSED
+      }))
     );
-
+  
     let placedMines = 0;
     while (placedMines < minesCount) {
-        let r = Math.floor(Math.random() * rows);
-        let c = Math.floor(Math.random() * cols);
-
-        if (gameState.field[r][c].type !== 'mine') {
-            gameState.field[r][c].type = 'mine';
-            placedMines++;
-        }
+      const row = Math.floor(Math.random() * rows);
+      const col = Math.floor(Math.random() * cols);
+  
+      if (gameState.field[row][col].type !== CELL_TYPE.MINE) {
+        gameState.field[row][col].type = CELL_TYPE.MINE;
+        placedMines++;
+      }
     }
     countAllNeighbours();
-}
-
-// 2. Підрахунок сусідів
-function countAllNeighbours() {
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            if (gameState.field[r][c].type === 'mine') continue;
-
-            let count = 0;
-            for (let dr = -1; dr <= 1; dr++) {
-                for (let dc = -1; dc <= 1; dc++) {
-                    let nr = r + dr;
-                    let nc = c + dc;
-                    if (nr >= 0 && nr < gameState.rows && nc >= 0 && nc < gameState.cols) {
-                        if (gameState.field[nr][nc].type === 'mine') count++;
-                    }
-                }
+  }
+  
+  // 2. Підрахунок сусідів
+  function countAllNeighbours() {
+    for (let row = 0; row < gameState.rows; row++) {
+      for (let col = 0; col < gameState.cols; col++) {
+        if (gameState.field[row][col].type === CELL_TYPE.MINE) continue;
+  
+        let count = 0;
+        for (const [directionalRow, directionalCol] of DIRECTIONS) {
+          const neighbourRow = row + directionalRow;
+          const neighbourCol = col + directionalCol;
+  
+          if (
+            neighbourRow >= 0 && neighbourRow < gameState.rows &&
+            neighbourCol >= 0 && neighbourCol < gameState.cols
+          ) {
+            if (gameState.field[neighbourRow][neighbourCol].type === CELL_TYPE.MINE) {
+              count++;
             }
-            gameState.field[r][c].neighborMines = count;
+          }
         }
+        gameState.field[row][col].neighborMines = count;
+      }
     }
-}
-
-// 3. Логіка відкриття
-function openCell(r, c) {
-    const cell = gameState.field[r][c];
-
-    if (gameState.status !== 'process' || cell.state !== 'closed') return;
-
-    if (cell.type === 'mine') {
-        cell.state = 'opened';
-        endGame('lose');
-        return;
+  }
+  
+  // 3. Логіка відкриття
+  function openCell(row, col) {
+    const cell = gameState.field[row][col];
+  
+    if (gameState.status !== GAME_STATUS.PROCESS || cell.state !== CELL_STATE.CLOSED) return;
+  
+    if (cell.type === CELL_TYPE.MINE) {
+      cell.state = CELL_STATE.OPENED;
+      endGame(GAME_STATUS.LOSE);
+      return;
     }
-
-    cell.state = 'opened';
-
+  
+    cell.state = CELL_STATE.OPENED;
+  
     if (cell.neighborMines === 0) {
-        for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-                let nr = r + dr;
-                let nc = c + dc;
-                if (nr >= 0 && nr < gameState.rows && nc >= 0 && nc < gameState.cols) {
-                    openCell(nr, nc);
-                }
-            }
+      for (const [directionalRow, directionalCol] of DIRECTIONS) {
+        const neighbourRow = row + directionalRow;
+        const neighbourCol = col + directionalCol;
+  
+        if (
+          neighbourRow >= 0 && neighbourRow < gameState.rows &&
+          neighbourCol >= 0 && neighbourCol < gameState.cols
+        ) {
+          openCell(neighbourRow, neighbourCol);
         }
+      }
     }
     checkWin();
-}
-
-// 4. Керування прапорцями
-function toggleFlag(r, c) {
-    const cell = gameState.field[r][c];
-    if (gameState.status !== 'process' || cell.state === 'opened') return;
-
-    cell.state = (cell.state === 'flagged') ? 'closed' : 'flagged';
-}
-
-// 5. Таймер та інтерфейс
-function startTimer() {
+  }
+  
+  // 4. Керування прапорцями
+  function toggleFlag(row, col) {
+    const cell = gameState.field[row][col];
+    if (gameState.status !== GAME_STATUS.PROCESS || cell.state === CELL_STATE.OPENED) return;
+  
+    cell.state = (cell.state === CELL_STATE.FLAGGED) ? CELL_STATE.CLOSED : CELL_STATE.FLAGGED;
+  }
+  
+  // 5. Таймер
+  function startTimer() {
     if (gameState.timerId) return;
+    
+    // Кешуємо елемент ДО інтервалу (виправлення продуктивності)
+    const timerElement = document.getElementById('game-timer');
+  
     gameState.timerId = setInterval(() => {
-        gameState.gameTime++;
-        // Змінюємо id на game-timer
-        const timerElement = document.getElementById('game-timer');
-        if (timerElement) timerElement.textContent = gameState.gameTime;
+      gameState.gameTime++;
+      if (timerElement) timerElement.textContent = gameState.gameTime;
     }, 1000);
-}
-
-function stopTimer() {
+  }
+  
+  function stopTimer() {
     clearInterval(gameState.timerId);
     gameState.timerId = null;
-}
-
-function endGame(result) {
+  }
+  
+  function endGame(result) {
     gameState.status = result;
     stopTimer();
     renderBoard();
-
+  
     const modal = document.getElementById('game-modal');
     const title = document.getElementById('modal-title');
     const message = document.getElementById('modal-message');
-
-    if (result === 'win') {
-        title.textContent = '🎉 ПЕРЕМОГА!';
-        title.className = 'status-win';
-        message.textContent = `Твій час: ${gameState.gameTime} сек.`;
+  
+    if (result === GAME_STATUS.WIN) {
+      title.textContent = '🎉 ПЕРЕМОГА!';
+      title.className = 'status-win';
+      message.textContent = `Твій час: ${gameState.gameTime} сек.`;
     } else {
-        title.textContent = '💥';
-        title.className = 'status-lose';
-        message.textContent = 'Ти натрапив на міну. Спробуй ще раз!';
+      title.textContent = '💥';
+      title.className = 'status-lose';
+      message.textContent = 'Ти натрапив на міну. Спробуй ще раз!';
     }
-
+  
     modal.style.display = 'flex';
-}
-
-function closeModal() {
-    document.getElementById('game-modal').style.display = 'none';
-}
-
-function checkWin() {
+  }
+  
+  function checkWin() {
     const hasWon = gameState.field.every(row =>
-        row.every(cell => cell.type === 'mine' || cell.state === 'opened')
+      row.every(cell => cell.type === CELL_TYPE.MINE || cell.state === CELL_STATE.OPENED)
     );
-    if (hasWon) endGame('win');
-}
-
-// 6. Малювання поля в HTML
-function renderBoard() {
+    if (hasWon) endGame(GAME_STATUS.WIN);
+  }
+  
+  // 6. Малювання поля
+  function renderBoard() {
     const boardElement = document.querySelector('.game-board');
     if (!boardElement) return;
-
-    // Оновлюємо лічильник прапорців на екрані
-    const flagsCount = gameState.field.flat().filter(cell => cell.state === 'flagged').length;
+  
+    const flagsCount = gameState.field.flat().filter(cell => cell.state === CELL_STATE.FLAGGED).length;
     const flagsElement = document.getElementById('flags-count');
     if (flagsElement) flagsElement.textContent = flagsCount;
-
+  
     boardElement.innerHTML = '';
-
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            const cellData = gameState.field[r][c];
-            const cellElement = document.createElement('div');
-            cellElement.classList.add('cell');
-
-            if (cellData.state === 'opened') {
-                cellElement.classList.add('revealed');
-                if (cellData.type === 'mine') {
-                    cellElement.classList.add('exploded');
-                    cellElement.textContent = '💣';
-                } else if (cellData.neighborMines > 0) {
-                    cellElement.textContent = cellData.neighborMines;
-                    cellElement.classList.add(`number-${cellData.neighborMines}`);
-                }
-            } else if (cellData.state === 'flagged') {
-                cellElement.classList.add('flag');
-                cellElement.textContent = '🚩';
-            }
-
-            cellElement.addEventListener('click', () => {
-                if (gameState.status === 'process') {
-                    if (gameState.gameTime === 0 && !gameState.timerId) startTimer();
-                    openCell(r, c);
-                    renderBoard();
-                }
-            });
-
-            cellElement.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-                if (gameState.status === 'process') {
-                    toggleFlag(r, c);
-                    renderBoard();
-                }
-            });
-
-            boardElement.appendChild(cellElement);
+  
+    for (let row = 0; row < gameState.rows; row++) {
+      for (let col = 0; col < gameState.cols; col++) {
+        const cellData = gameState.field[row][col];
+        const cellElement = document.createElement('div');
+        cellElement.classList.add('cell');
+  
+        if (cellData.state === CELL_STATE.OPENED) {
+          cellElement.classList.add('revealed');
+          if (cellData.type === CELL_TYPE.MINE) {
+            cellElement.classList.add('exploded');
+            cellElement.textContent = '💣';
+          } else if (cellData.neighborMines > 0) {
+            cellElement.textContent = cellData.neighborMines;
+            cellElement.classList.add(`number-${cellData.neighborMines}`);
+          }
+        } else if (cellData.state === CELL_STATE.FLAGGED) {
+          cellElement.classList.add('flag');
+          cellElement.textContent = '🚩';
         }
+  
+        cellElement.addEventListener('click', () => {
+          if (gameState.status === GAME_STATUS.PROCESS) {
+            if (gameState.gameTime === 0 && !gameState.timerId) startTimer();
+            openCell(row, col);
+            renderBoard();
+          }
+        });
+  
+        cellElement.addEventListener('contextmenu', (event) => {
+          event.preventDefault();
+          if (gameState.status === GAME_STATUS.PROCESS) {
+            toggleFlag(row, col);
+            renderBoard();
+          }
+        });
+  
+        boardElement.appendChild(cellElement);
+      }
     }
-}
-
-// 7. Скидання гри
-function resetGame() {
+  }
+  
+  function resetGame() {
     stopTimer();
-    gameState.status = 'process';
+    gameState.status = GAME_STATUS.PROCESS;
     gameState.gameTime = 0;
     
-    // Виправляємо ID тут
     const timerElement = document.getElementById('game-timer');
     if (timerElement) timerElement.textContent = '0';
     
     generateField(gameState.rows, gameState.cols, gameState.minesCount);
     renderBoard();
-}
-
-window.onload = () => {
-    const resetBtn = document.querySelector('.reset-button');
-    if (resetBtn) resetBtn.addEventListener('click', resetGame);
+  }
+  
+  // Керування подіями
+  window.onload = () => {
+    const resetButton = document.querySelector('.reset-button');
+    if (resetButton) resetButton.addEventListener('click', resetGame);
+  
+    const playAgainButton = document.getElementById('play-again-button');
+    if (playAgainButton) {
+      playAgainButton.addEventListener('click', () => {
+        resetGame();
+        const modal = document.getElementById('game-modal');
+        if (modal) modal.style.display = 'none';
+      });
+    }
     
     resetGame();
-};
+  };
