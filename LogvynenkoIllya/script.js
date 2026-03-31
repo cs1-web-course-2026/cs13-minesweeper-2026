@@ -24,6 +24,7 @@ const gameState = {
     timerId: null,
     board: [],
     explodedCell: null,
+    firstMoveMade: false,
 };
 
 const gridElement = document.getElementById('game-grid');
@@ -261,13 +262,13 @@ function initializeGame(state) {
     state.status = GAME_STATUS.PLAYING;
     state.gameTime = 0;
     state.explodedCell = null;
+    state.firstMoveMade = false;
     state.board = generateField(state.rows, state.cols, state.minesCount);
     countAdjacentMines(state.board);
     updateTimerDisplay(state);
     updateFlagsCounter(state);
     updateStatusMessage(state);
     updateStartButtonFace(state);
-    startTimer(state);
 }
 
 function getCellView(state, cell, row, col) {
@@ -346,6 +347,11 @@ function handleLeftClick(event) {
 
     if (cell.state !== CELL_STATE.CLOSED) {
         return;
+    }
+
+    if (!gameState.firstMoveMade) {
+        gameState.firstMoveMade = true;
+        startTimer(gameState);
     }
 
     revealCell(gameState, gameState.board, row, col);
