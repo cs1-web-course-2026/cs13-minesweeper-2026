@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сапер</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="game-panel">
+        <h1>Сапер</h1>
+        <div class="status-bar">
+            <div>Статус: <span id="gameStatus">process</span></div>
+            <div>Час: <span id="timer">0</span>s</div>
+            <div>Міни: <span id="mineCount">0</span></div>
+        </div>
+        <div class="controls">
+            <button id="restartBtn">Перезапустити</button>
+            <select id="difficulty">
+                <option value="easy">Легко 8x8, 10 мін</option>
+                <option value="medium">Середньо 12x12, 20 мін</option>
+                <option value="hard">Важко 16x16, 40 мін</option>
+            </select>
+        </div>
+    </div>
+    <div id="board" class="board"></div>
+    <script src="script.js"></script>
+</body>
+</html>
