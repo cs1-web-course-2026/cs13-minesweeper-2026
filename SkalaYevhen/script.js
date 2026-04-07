@@ -69,3 +69,24 @@ function calculateAllNeighbors() {
         }
     }
 }
+function openCell(row, col) {
+    const cell = gameState.field[row][col];
+    if (cell.state !== 'closed' || gameState.status !== 'process') return;
+    if (cell.type === 'mine') {
+        cell.state = 'opened';
+        gameOver('lose');
+        return;
+    }
+    cell.state = 'opened';
+    if (cell.neighborMines === 0) {
+        const neighbors = getNeighbors(row, col);
+        neighbors.forEach(pos => openCell(pos.r, pos.c));
+    }
+    checkWin();
+}
+
+function toggleFlag(row, col) {
+    const cell = gameState.field[row][col];
+    if (gameState.status !== 'process' || cell.state === 'opened') return;
+    cell.state = cell.state === 'flagged' ? 'closed' : 'flagged';
+}
