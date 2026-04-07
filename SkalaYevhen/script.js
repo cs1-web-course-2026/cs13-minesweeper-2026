@@ -42,3 +42,30 @@ function generateField(rows, cols, minesCount) {
     }
     return field;
 }
+function getNeighbors(row, col) {
+    const neighbors = [];
+    for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue;
+            const r = row + dr;
+            const c = col + dc;
+            if (r >= 0 && r < gameState.rows && c >= 0 && c < gameState.cols) {
+                neighbors.push({ r, c });
+            }
+        }
+    }
+    return neighbors;
+}
+
+function calculateAllNeighbors() {
+    for (let r = 0; r < gameState.rows; r++) {
+        for (let c = 0; c < gameState.cols; c++) {
+            if (gameState.field[r][c].type === 'mine') continue;
+            const neighbors = getNeighbors(r, c);
+            const count = neighbors.reduce((acc, pos) => {
+                return acc + (gameState.field[pos.r][pos.c].type === 'mine' ? 1 : 0);
+            }, 0);
+            gameState.field[r][c].neighborMines = count;
+        }
+    }
+}
