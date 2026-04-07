@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minesweeper UI</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper UI</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="minesweeper-app">
-        <header class="header">
-            <div class="counter flags-counter" id="flags-counter">015</div>
-            <button class="start-button" id="start-button" aria-label="Start new game">🙂</button>
-            <div class="counter timer-counter" id="timer-counter">000</div>
-        </header>
+  <div class="minesweeper-app">
+    <header class="header">
+      <div class="counter flags-counter" id="flags-counter">015</div>
+      <button type="button" class="start-button" id="start-button" aria-label="Start new game">🙂</button>
+      <div class="counter timer-counter" id="timer-counter">000</div>
+    </header>
 
-        <div class="status-message" id="status-message"></div>
+    <div class="status-message" id="status-message" role="status" aria-live="polite"></div>
 
-        <main class="grid" id="game-grid"></main>
-    </div>
+    <main class="grid" id="game-grid"></main>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
