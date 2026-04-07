@@ -90,3 +90,35 @@ function toggleFlag(row, col) {
     if (gameState.status !== 'process' || cell.state === 'opened') return;
     cell.state = cell.state === 'flagged' ? 'closed' : 'flagged';
 }
+function checkWin() {
+    let closedEmptyCells = 0;
+    for (let r = 0; r < gameState.rows; r++) {
+        for (let c = 0; c < gameState.cols; c++) {
+            if (gameState.field[r][c].type === 'empty' && gameState.field[r][c].state !== 'opened') {
+                closedEmptyCells++;
+            }
+        }
+    }
+    if (closedEmptyCells === 0) {
+        gameOver('win');
+    }
+}
+
+function startTimer() {
+    gameState.timerId = setInterval(() => {
+        gameState.gameTime++;
+        console.log(`Time: ${gameState.gameTime}`);
+    }, 1000);
+}
+
+function gameOver(status) {
+    gameState.status = status;
+    clearInterval(gameState.timerId);
+    if (status === 'win') {
+        alert("Вітаємо! Ви перемогли!");
+    } else {
+        alert("Ви підірвалися на міні! Гра закінчена.");
+    }
+}
+
+initGame();
