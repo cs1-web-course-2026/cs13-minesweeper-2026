@@ -61,7 +61,7 @@ body {
     background: #bbb;
     border: 2px solid #eee;
 }
-.opened {
+.cell.opened {
     background: #ddd;
     border: 2px solid #999;
 }
@@ -72,7 +72,7 @@ body {
 
 .flag::after {
     content: "🚩";
-;
+
 }
 .mine {
     background: #ddd;
@@ -80,13 +80,12 @@ body {
 
 .mine::after {
     content: "💣";
-    position: absolute;
 }
 .cell.mine-hit {
     background: red;
     border: 1px solid #999;
 }
 
-.mine-hit::after {
+.cell.mine-hit::after {
     content: "💣";
 }
