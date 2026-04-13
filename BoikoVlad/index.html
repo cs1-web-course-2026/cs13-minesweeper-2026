@@ -10,50 +10,17 @@
 
 <div class="game">
 
-    <header class="game-header">
-        <div class="counter">🚩 10</div>
-
-        <button class="restart" aria-label="Restart game">🙂</button>
-
-        <div class="timer">⏱ 000</div>
+    <header class="header">
+        <div class="flags" id="flags">0</div>
+        <button class="restart" aria-label="Restart game" id="restart">😃</button>
+        <div class="timer" id="timer">0</div>
     </header>
 
-    <div class="field">
-
-        <div class="cell closed"></div>
-        <div class="cell closed flag"></div>
-        <div class="cell closed mine"></div>
-        <div class="cell opened"></div>
-        <div class="cell mine-hit"></div>
-        <div class="cell opened mine"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-        <div class="cell closed"></div>
-
-    </div>
+    <div class="field" id="field"></div>
 
 </div>
+
+<script src="script.js"></script>
 
 </body>
 </html>

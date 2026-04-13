@@ -9,31 +9,45 @@ body {
     background: #c0c0c0;
     padding: 10px;
     border: 4px solid #888;
+    width: fit-content;
 }
-.game-header {
+.header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     background: #999;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-.counter,
-.timer {
+.timer,
+.flags {
     background: black;
     color: red;
     padding: 5px 10px;
     font-weight: bold;
+    width: 30px;
+    text-align: center;
+    min-width: 80px;
+    gap: 8px;
+    font-size: 18px;
+}
+.flags::before {
+    content: "🚩";
+    font-size: 18px;
+}
+.timer::before {
+    content: "⏱"; 
+    font-size: 18px;
 }
 .restart {       
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
+
 }
 .field {
     display: grid;
-    grid-template-columns: repeat(6, 30px);
-    grid-template-rows: repeat(5, 30px);
+    grid-template-columns: repeat(9, 30px); 
     gap: 2px;
 }
 .cell {
@@ -55,13 +69,8 @@ body {
     border-bottom: 2px solid #7b7b7b;
     cursor: pointer;
 }
-.cell {
-    width: 30px;
-    height: 30px;
-    background: #bbb;
-    border: 2px solid #eee;
-}
-.cell.opened {
+
+.opened {
     background: #ddd;
     border: 2px solid #999;
 }
@@ -72,7 +81,6 @@ body {
 
 .flag::after {
     content: "🚩";
-
 }
 .mine {
     background: #ddd;
@@ -86,6 +94,6 @@ body {
     border: 1px solid #999;
 }
 
-.cell.mine-hit::after {
+.mine-hit::after {
     content: "💣";
 }
