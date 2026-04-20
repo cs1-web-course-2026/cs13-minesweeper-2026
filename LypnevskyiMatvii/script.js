@@ -309,3 +309,208 @@ window.MinesweeperLogic = {
   checkWinCondition,
   resetGame,
 };
+
+(() => {
+  const { CELL_TYPE: CT, CELL_STATE: CS, GAME_STATUS: GS } = window.MinesweeperLogic;
+
+  const $timer = document.getElementById('timer');
+  const $flagsLeft = document.getElementById('flags-left');
+  const $restart = document.getElementById('restart');
+  const $board = document.getElementById('board');
+  const $banner = document.getElementById('banner');
+
+  if (!$timer || !$flagsLeft || !$restart || !$board || !$banner) {
+    return;
+  }
+
+  const gameState = window.MinesweeperLogic.createGameState({
+    rows: 10,
+    cols: 10,
+    minesCount: 15,
+  });
+
+  let field = window.MinesweeperLogic.generateField(gameState.rows, gameState.cols, gameState.minesCount);
+  let uiTimerId = null;
+  let hitKey = null;
+
+  function cellKey(row, col) {
+    return `${row}:${col}`;
+  }
+
+  function formatTime(totalSeconds) {
+    const safe = Math.max(0, Number.isFinite(totalSeconds) ? totalSeconds : 0);
+    const minutes = Math.floor(safe / 60);
+    const seconds = safe % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  function countFlagsPlaced(currentField) {
+    let count = 0;
+    for (let r = 0; r < currentField.length; r++) {
+      for (let c = 0; c < currentField[0].length; c++) {
+        if (currentField[r][c].state === CS.FLAGGED) count++;
+      }
+    }
+    return count;
+  }
+
+  function setBanner(text, variant) {
+    $banner.textContent = text || '';
+    $banner.classList.toggle('banner--win', variant === 'win');
+    $banner.classList.toggle('banner--lose', variant === 'lose');
+  }
+
+  function updateHeader() {
+    $timer.textContent = formatTime(gameState.gameTime);
+    const flagsPlaced = countFlagsPlaced(field);
+    const left = Math.max(0, gameState.minesCount - flagsPlaced);
+    $flagsLeft.textContent = String(left);
+
+    if (gameState.status === GS.PROCESS) {
+      $restart.textContent = 'Рестарт';
+    } else {
+      $restart.textContent = 'Старт';
+    }
+  }
+
+  function ensureUiTimer() {
+    if (uiTimerId !== null) return;
+    uiTimerId = setInterval(() => {
+      updateHeader();
+    }, 200);
+  }
+
+  function stopUiTimer() {
+    if (uiTimerId === null) return;
+    clearInterval(uiTimerId);
+    uiTimerId = null;
+  }
+
+  function renderBoard() {
+    $board.style.gridTemplateColumns = `repeat(${gameState.cols}, 1fr)`;
+    const frag = document.createDocumentFragment();
+
+    for (let row = 0; row < gameState.rows; row++) {
+      for (let col = 0; col < gameState.cols; col++) {
+        const cell = field[row][col];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cell';
+        btn.dataset.row = String(row);
+        btn.dataset.col = String(col);
+
+        if (cell.state === CS.CLOSED) {
+          btn.classList.add('cell--closed');
+        } else if (cell.state === CS.FLAGGED) {
+          btn.classList.add('cell--flag');
+        } else {
+          btn.classList.add('cell--open');
+
+          if (cell.type === CT.MINE) {
+            btn.classList.add(cellKey(row, col) === hitKey ? 'cell--mine-hit' : 'cell--mine');
+          } else if (cell.neighborMines > 0) {
+            btn.textContent = String(cell.neighborMines);
+            btn.classList.add(`cell--n${Math.min(8, cell.neighborMines)}`);
+          } else {
+            btn.textContent = '';
+          }
+        }
+
+        btn.disabled = gameState.status !== GS.PROCESS && cell.state !== CS.OPENED;
+        frag.appendChild(btn);
+      }
+    }
+
+    $board.replaceChildren(frag);
+  }
+
+  function syncEndState() {
+    if (gameState.status === GS.WIN) {
+      setBanner('Перемога. Всі безпечні клітинки відкриті.', 'win');
+      stopUiTimer();
+      return;
+    }
+
+    if (gameState.status === GS.LOSE) {
+      setBanner('Поразка. Ви підірвалися на міні.', 'lose');
+      stopUiTimer();
+      return;
+    }
+
+    setBanner('', null);
+    ensureUiTimer();
+  }
+
+  function restart() {
+    hitKey = null;
+    field = window.MinesweeperLogic.resetGame(gameState, {
+      rows: gameState.rows,
+      cols: gameState.cols,
+      minesCount: gameState.minesCount,
+    });
+    updateHeader();
+    renderBoard();
+    syncEndState();
+  }
+
+  function getCellCoordsFromEventTarget(target) {
+    const el = target && target.closest ? target.closest('.cell') : null;
+    if (!el) return null;
+    const row = Number(el.dataset.row);
+    const col = Number(el.dataset.col);
+    if (!Number.isInteger(row) || !Number.isInteger(col)) return null;
+    return { row, col };
+  }
+
+  function canPlaceMoreFlags() {
+    const flagsPlaced = countFlagsPlaced(field);
+    return flagsPlaced < gameState.minesCount;
+  }
+
+  $restart.addEventListener('click', () => {
+    restart();
+  });
+
+  $board.addEventListener('contextmenu', (e) => {
+    const coords = getCellCoordsFromEventTarget(e.target);
+    if (!coords) return;
+    e.preventDefault();
+  });
+
+  $board.addEventListener('mousedown', (e) => {
+    const coords = getCellCoordsFromEventTarget(e.target);
+    if (!coords) return;
+
+    if (gameState.status !== GS.PROCESS) return;
+
+    if (e.button === 0) {
+      const beforeStatus = gameState.status;
+      const cell = field[coords.row][coords.col];
+
+      window.MinesweeperLogic.openCell(gameState, field, coords.row, coords.col);
+
+      if (beforeStatus === GS.PROCESS && gameState.status === GS.LOSE && cell.type === CT.MINE) {
+        hitKey = cellKey(coords.row, coords.col);
+      }
+
+      updateHeader();
+      renderBoard();
+      syncEndState();
+      return;
+    }
+
+    if (e.button === 2) {
+      const cell = field[coords.row][coords.col];
+      if (cell.state === CS.CLOSED && !canPlaceMoreFlags()) return;
+
+      window.MinesweeperLogic.toggleFlag(gameState, field, coords.row, coords.col);
+      updateHeader();
+      renderBoard();
+      syncEndState();
+    }
+  });
+
+  updateHeader();
+  renderBoard();
+  syncEndState();
+})();
