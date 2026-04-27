@@ -38,12 +38,16 @@ const gameState = {
   gameTime: 0,
   timerId: null,
   board: [],
+  isResultShown: false,
 };
 
 
 // --- Кешовані DOM-посилання -------
 let mineCounterElement;
 let timerDisplayElement;
+let statusMessageElement;
+let startButtonElement;
+let boardElement;
 
 
 // --- Генерація поля ----------
@@ -158,14 +162,17 @@ function handleCellClick(row, col) {
   if (gameState.status === GAME_STATUS.WON || gameState.status === GAME_STATUS.LOST) return;
 
   if (gameState.status === GAME_STATUS.IDLE) {
-    gameState.board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
     gameState.status = GAME_STATUS.PLAYING;
     startTimer();
+    updateStartButtonLabel();
+    updateStatusMessage();
   }
 
   openCell(row, col);
   checkWin();
   renderBoard();
+  updateStatusMessage();
+  updateStartButtonLabel();
 }
 // ---- Прапорець ------------------
 
@@ -176,17 +183,24 @@ function handleCellClick(row, col) {
  * @param {number} col
  */
 function toggleFlag(row, col) {
-  if (gameState.status !== GAME_STATUS.PLAYING) return;
+  if (gameState.status === GAME_STATUS.WON || gameState.status === GAME_STATUS.LOST) return;
 
   const cell = gameState.board[row][col];
 
   if (cell.state === CELL_STATE.OPENED) return;
 
-  cell.state = cell.state === CELL_STATE.FLAGGED 
-    ? CELL_STATE.CLOSED 
-    : CELL_STATE.FLAGGED;
+  const isFlagged = cell.state === CELL_STATE.FLAGGED;
+  const flaggedCount = getFlaggedCount();
+  const remainingFlags = gameState.minesCount - flaggedCount;
+
+  if (!isFlagged && remainingFlags <= 0) return;
+
+  cell.state = isFlagged ? CELL_STATE.CLOSED : CELL_STATE.FLAGGED;
+
+  checkWin();
   renderBoard();
   updateMineCounter();
+  updateStatusMessage();
 }
 
 
@@ -260,27 +274,31 @@ function startGame() {
 
   gameState.status = GAME_STATUS.IDLE;
   gameState.gameTime = 0;
-  gameState.board = [];
+  gameState.isResultShown = false;
+  gameState.board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
 
   renderBoard();
   updateMineCounter();
   updateTimerDisplay();
+  updateStatusMessage();
+  updateStartButtonLabel();
+}
+
+function handleStartButtonClick() {
+  // Під час активної гри кнопка не перезапускає поле.
+  if (gameState.status === GAME_STATUS.PLAYING) return;
+  startGame();
 }
 
 // ------- Рендер поля ------------------
 
 function renderBoard() {
-  const boardEl = document.querySelector('.minesweeper__board');
-  boardEl.style.setProperty('--cols', gameState.cols);
-  boardEl.innerHTML = '';
-
-  const isEmpty = gameState.board.length === 0;
+  boardElement.style.setProperty('--cols', gameState.cols);
+  boardElement.innerHTML = '';
 
   for (let rowIndex = 0; rowIndex < gameState.rows; rowIndex++) {
     for (let colIndex = 0; colIndex < gameState.cols; colIndex++) {
-      const cell = isEmpty
-        ? { state: CELL_STATE.CLOSED, type: CELL_CONTENT.EMPTY, neighborMines: 0, triggered: false, wrongFlag: false }
-        : gameState.board[rowIndex][colIndex];
+      const cell = gameState.board[rowIndex][colIndex];
 
       const cellButton = document.createElement('button');
       cellButton.type = 'button';
@@ -293,7 +311,7 @@ function renderBoard() {
         toggleFlag(rowIndex, colIndex);
       });
       
-      boardEl.appendChild(cellButton);
+      boardElement.appendChild(cellButton);
     }
   }
 }
@@ -340,7 +358,7 @@ function applyCellClass(element, cell, rowIndex, colIndex) {
 // ─── Оновлення UI лічильників ─────────────────────────────────────────────────
 
 function updateMineCounter() {
-  const flaggedCount = gameState.board.flat().filter((cell) => cell.state === CELL_STATE.FLAGGED).length;
+  const flaggedCount = getFlaggedCount();
   const remaining = Math.max(gameState.minesCount - flaggedCount, 0);
   mineCounterElement.textContent = String(remaining).padStart(3, '0');
 }
@@ -351,16 +369,42 @@ function updateTimerDisplay() {
 }
 
 function updateStatusMessage() {
-  const statusEl = document.querySelector('.minesweeper__status');
-  if (!statusEl) return;
+  if (!statusMessageElement) return;
  
   if (gameState.status === GAME_STATUS.WON) {
-    statusEl.textContent = 'Перемога! 🎉';
+    statusMessageElement.textContent = 'Перемога! 🎉';
+    statusMessageElement.className = 'minesweeper__status minesweeper__status--win';
+    if (!gameState.isResultShown) {
+      alert('Перемога! 🎉 Ви відкрили всі безпечні клітинки.');
+      gameState.isResultShown = true;
+    }
   } else if (gameState.status === GAME_STATUS.LOST) {
-    statusEl.textContent = 'Програш 💥';
+    statusMessageElement.textContent = 'Програш 💥';
+    statusMessageElement.className = 'minesweeper__status minesweeper__status--lose';
+    if (!gameState.isResultShown) {
+      alert('Програш 💥 Ви натиснули на міну.');
+      gameState.isResultShown = true;
+    }
+  } else if (gameState.status === GAME_STATUS.PLAYING) {
+    statusMessageElement.textContent = 'Гра триває...';
+    statusMessageElement.className = 'minesweeper__status';
   } else {
-    statusEl.textContent = '';
+    statusMessageElement.textContent = 'Натисніть на клітинку, щоб почати гру.';
+    statusMessageElement.className = 'minesweeper__status';
   }
+}
+
+function updateStartButtonLabel() {
+  if (!startButtonElement) return;
+  if (gameState.status === GAME_STATUS.WON || gameState.status === GAME_STATUS.LOST) {
+    startButtonElement.textContent = 'Рестарт';
+  } else {
+    startButtonElement.textContent = 'Старт';
+  }
+}
+
+function getFlaggedCount() {
+  return gameState.board.flat().filter((cell) => cell.state === CELL_STATE.FLAGGED).length;
 }
 // --- Допоміжні функції ----------
 
@@ -373,11 +417,14 @@ function isInBounds(row, col, rows, cols) {
 // ─── Ініціалізація ────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
-  mineCounterElement = document.querySelector('.info-block__value--danger span:last-child');
-  timerDisplayElement = document.querySelector('.info-block:last-child .info-block__value span:last-child');
+  mineCounterElement = document.querySelector('#flags-counter');
+  timerDisplayElement = document.querySelector('#timer-counter');
+  statusMessageElement = document.querySelector('.minesweeper__status');
+  startButtonElement = document.querySelector('.btn-start');
+  boardElement = document.querySelector('#board');
 
-  const startBtn = document.querySelector('.btn-start');
-  startBtn.addEventListener('click', startGame);
+  boardElement.addEventListener('contextmenu', (event) => event.preventDefault());
+  startButtonElement.addEventListener('click', handleStartButtonClick);
 
   startGame();
 });
