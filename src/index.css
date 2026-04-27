@@ -1,0 +1,18 @@
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f5ebe0; /* Теплий колір під стиль твого Сапера */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  width: 100%;
+}
