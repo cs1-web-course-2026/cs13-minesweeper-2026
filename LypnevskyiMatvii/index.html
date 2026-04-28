@@ -10,123 +10,123 @@
     <main class="game-wrapper">
       <header class="game-header">
         <div class="header-panel">
-          <div class="counter flag-counter" aria-label="Flags remaining">
+          <div class="counter flag-counter" aria-label="Залишилося прапорців">
             <span class="counter-icon">🚩</span>
             <span class="counter-value" id="flag-count">010</span>
           </div>
 
-          <button class="new-game-btn" id="new-game-btn" aria-label="New game">
-            <span class="new-game-icon">😀</span>
+          <button type="button" class="new-game-btn" id="new-game-btn" aria-label="Нова гра">
+            <span class="new-game-icon" aria-hidden="true">😀</span>
           </button>
 
-          <div class="counter timer" aria-label="Elapsed time">
+          <div class="counter timer" aria-label="Час, що минув">
             <span class="counter-value" id="timer">000</span>
             <span class="counter-icon">⏱</span>
           </div>
         </div>
       </header>
 
-      <section class="game-board" aria-label="Minesweeper board">
-        <div class="board-grid" id="board-grid" role="grid">
+      <section class="game-board" aria-label="Ігрове поле Сапера">
+        <div class="board-grid" id="board-grid">
 
           <!-- Row 1 -->
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
           <!-- Row 2 -->
-          <div class="cell cell--open cell--empty" role="gridcell" aria-label="Cell empty"></div>
-          <div class="cell cell--open cell--number cell--1" role="gridcell" aria-label="Cell 1">1</div>
-          <div class="cell cell--open cell--number cell--2" role="gridcell" aria-label="Cell 2">2</div>
-          <div class="cell cell--open cell--number cell--3" role="gridcell" aria-label="Cell 3">3</div>
-          <div class="cell cell--open cell--number cell--4" role="gridcell" aria-label="Cell 4">4</div>
-          <div class="cell cell--open cell--number cell--5" role="gridcell" aria-label="Cell 5">5</div>
-          <div class="cell cell--open cell--number cell--6" role="gridcell" aria-label="Cell 6">6</div>
-          <div class="cell cell--open cell--number cell--7" role="gridcell" aria-label="Cell 7">7</div>
-          <div class="cell cell--open cell--number cell--8" role="gridcell" aria-label="Cell 8">8</div>
+          <div class="cell cell--open cell--empty" aria-label="Клітинка порожня"></div>
+          <div class="cell cell--open cell--number cell--1" aria-label="Клітинка 1">1</div>
+          <div class="cell cell--open cell--number cell--2" aria-label="Клітинка 2">2</div>
+          <div class="cell cell--open cell--number cell--3" aria-label="Клітинка 3">3</div>
+          <div class="cell cell--open cell--number cell--4" aria-label="Клітинка 4">4</div>
+          <div class="cell cell--open cell--number cell--5" aria-label="Клітинка 5">5</div>
+          <div class="cell cell--open cell--number cell--6" aria-label="Клітинка 6">6</div>
+          <div class="cell cell--open cell--number cell--7" aria-label="Клітинка 7">7</div>
+          <div class="cell cell--open cell--number cell--8" aria-label="Клітинка 8">8</div>
 
           <!-- Row 3 -->
-          <div class="cell cell--flagged" role="gridcell" aria-label="Cell flagged"></div>
-          <div class="cell cell--flagged cell--flagged-mine" role="gridcell" aria-label="Cell flagged with mine"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--flagged" aria-label="Клітинка з прапорцем"></div>
+          <div class="cell cell--flagged cell--flagged-mine" aria-label="Клітинка з прапорцем і міною"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
           <!-- Row 4 -->
-          <div class="cell cell--mine" role="gridcell" aria-label="Cell mine"></div>
-          <div class="cell cell--mine cell--mine-hit" role="gridcell" aria-label="Cell mine hit"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--mine" aria-label="Клітинка з міною"></div>
+          <div class="cell cell--mine cell--mine-hit" aria-label="Клітинка з міною (натиснута)"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
           <!-- Row 5 -->
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
           <!-- Row 6 -->
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
           <!-- Row 7 -->
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
           <!-- Row 8 -->
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
           <!-- Row 9 -->
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
-          <div class="cell cell--closed" role="gridcell" aria-label="Cell closed"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
+          <div class="cell cell--closed" aria-label="Клітинка закрита"></div>
 
         </div>
       </section>
