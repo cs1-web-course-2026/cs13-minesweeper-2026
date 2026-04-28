@@ -329,9 +329,10 @@ window.MinesweeperLogic = {
     minesCount: 15,
   });
 
-  let field = window.MinesweeperLogic.generateField(gameState.rows, gameState.cols, gameState.minesCount);
-  let uiTimerId = null;
-  let hitKey = null;
+  gameState.field = window.MinesweeperLogic.generateField(gameState.rows, gameState.cols, gameState.minesCount);
+  gameState.uiTimerId = null;
+  gameState.hitKey = null;
+  gameState.firstMoveDone = false;
 
   function cellKey(row, col) {
     return `${row}:${col}`;
@@ -348,10 +349,32 @@ window.MinesweeperLogic = {
     let count = 0;
     for (let r = 0; r < currentField.length; r++) {
       for (let c = 0; c < currentField[0].length; c++) {
-        if (currentField[r][c].state === CS.FLAGGED) count++;
+        if (currentField[r][c].state === CS.FLAGGED) {
+          count++;
+        }
       }
     }
     return count;
+  }
+
+  function getCellAriaLabel(cell, row, col) {
+    const rowHuman = row + 1;
+    const colHuman = col + 1;
+    let cellStateLabel = 'закрита клітинка';
+
+    if (cell.state === CS.FLAGGED) {
+      cellStateLabel = 'клітинка з прапорцем';
+    } else if (cell.state === CS.OPENED) {
+      if (cell.type === CT.MINE) {
+        cellStateLabel = 'міна';
+      } else if (cell.neighborMines > 0) {
+        cellStateLabel = `відкрита клітинка, сусідніх мін: ${cell.neighborMines}`;
+      } else {
+        cellStateLabel = 'відкрита порожня клітинка';
+      }
+    }
+
+    return `Рядок ${rowHuman}, стовпчик ${colHuman}, ${cellStateLabel}`;
   }
 
   function setBanner(text, variant) {
@@ -362,7 +385,7 @@ window.MinesweeperLogic = {
 
   function updateHeader() {
     $timer.textContent = formatTime(gameState.gameTime);
-    const flagsPlaced = countFlagsPlaced(field);
+    const flagsPlaced = countFlagsPlaced(gameState.field);
     const left = Math.max(0, gameState.minesCount - flagsPlaced);
     $flagsLeft.textContent = String(left);
 
@@ -374,16 +397,16 @@ window.MinesweeperLogic = {
   }
 
   function ensureUiTimer() {
-    if (uiTimerId !== null) return;
-    uiTimerId = setInterval(() => {
+    if (gameState.uiTimerId !== null) return;
+    gameState.uiTimerId = setInterval(() => {
       updateHeader();
     }, 200);
   }
 
   function stopUiTimer() {
-    if (uiTimerId === null) return;
-    clearInterval(uiTimerId);
-    uiTimerId = null;
+    if (gameState.uiTimerId === null) return;
+    clearInterval(gameState.uiTimerId);
+    gameState.uiTimerId = null;
   }
 
   function renderBoard() {
@@ -392,12 +415,13 @@ window.MinesweeperLogic = {
 
     for (let row = 0; row < gameState.rows; row++) {
       for (let col = 0; col < gameState.cols; col++) {
-        const cell = field[row][col];
+        const cell = gameState.field[row][col];
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.className = 'cell';
         btn.dataset.row = String(row);
         btn.dataset.col = String(col);
+        btn.setAttribute('aria-label', getCellAriaLabel(cell, row, col));
 
         if (cell.state === CS.CLOSED) {
           btn.classList.add('cell--closed');
@@ -407,7 +431,7 @@ window.MinesweeperLogic = {
           btn.classList.add('cell--open');
 
           if (cell.type === CT.MINE) {
-            btn.classList.add(cellKey(row, col) === hitKey ? 'cell--mine-hit' : 'cell--mine');
+            btn.classList.add(cellKey(row, col) === gameState.hitKey ? 'cell--mine-hit' : 'cell--mine');
           } else if (cell.neighborMines > 0) {
             btn.textContent = String(cell.neighborMines);
             btn.classList.add(`cell--n${Math.min(8, cell.neighborMines)}`);
@@ -442,8 +466,9 @@ window.MinesweeperLogic = {
   }
 
   function restart() {
-    hitKey = null;
-    field = window.MinesweeperLogic.resetGame(gameState, {
+    gameState.hitKey = null;
+    gameState.firstMoveDone = false;
+    gameState.field = window.MinesweeperLogic.resetGame(gameState, {
       rows: gameState.rows,
       cols: gameState.cols,
       minesCount: gameState.minesCount,
@@ -463,8 +488,37 @@ window.MinesweeperLogic = {
   }
 
   function canPlaceMoreFlags() {
-    const flagsPlaced = countFlagsPlaced(field);
+    const flagsPlaced = countFlagsPlaced(gameState.field);
     return flagsPlaced < gameState.minesCount;
+  }
+
+  function ensureSafeFirstMove(row, col) {
+    if (gameState.firstMoveDone) {
+      return;
+    }
+
+    const clickedCell = gameState.field[row]?.[col];
+
+    if (!clickedCell) {
+      return;
+    }
+
+    if (clickedCell.type !== CT.MINE) {
+      return;
+    }
+
+    for (let attempt = 0; attempt < 50; attempt++) {
+      const nextField = window.MinesweeperLogic.generateField(gameState.rows, gameState.cols, gameState.minesCount);
+
+      if (nextField[row][col].type !== CT.MINE) {
+        gameState.field = nextField;
+
+        return;
+      }
+    }
+
+    gameState.field[row][col].type = CT.EMPTY;
+    window.MinesweeperLogic.countNeighbourMines(gameState.field);
   }
 
   $restart.addEventListener('click', () => {
@@ -485,12 +539,14 @@ window.MinesweeperLogic = {
 
     if (e.button === 0) {
       const beforeStatus = gameState.status;
-      const cell = field[coords.row][coords.col];
+      ensureSafeFirstMove(coords.row, coords.col);
+      const cell = gameState.field[coords.row][coords.col];
 
-      window.MinesweeperLogic.openCell(gameState, field, coords.row, coords.col);
+      window.MinesweeperLogic.openCell(gameState, gameState.field, coords.row, coords.col);
+      gameState.firstMoveDone = true;
 
       if (beforeStatus === GS.PROCESS && gameState.status === GS.LOSE && cell.type === CT.MINE) {
-        hitKey = cellKey(coords.row, coords.col);
+        gameState.hitKey = cellKey(coords.row, coords.col);
       }
 
       updateHeader();
@@ -500,10 +556,10 @@ window.MinesweeperLogic = {
     }
 
     if (e.button === 2) {
-      const cell = field[coords.row][coords.col];
+      const cell = gameState.field[coords.row][coords.col];
       if (cell.state === CS.CLOSED && !canPlaceMoreFlags()) return;
 
-      window.MinesweeperLogic.toggleFlag(gameState, field, coords.row, coords.col);
+      window.MinesweeperLogic.toggleFlag(gameState, gameState.field, coords.row, coords.col);
       updateHeader();
       renderBoard();
       syncEndState();
