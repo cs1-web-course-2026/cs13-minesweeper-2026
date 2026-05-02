@@ -183,7 +183,11 @@ function handleCellClick(row, col) {
  * @param {number} col
  */
 function toggleFlag(row, col) {
-  if (gameState.status === GAME_STATUS.WON || gameState.status === GAME_STATUS.LOST) return;
+  if (
+    gameState.status === GAME_STATUS.IDLE ||
+    gameState.status === GAME_STATUS.WON ||
+    gameState.status === GAME_STATUS.LOST
+  ) return;
 
   const cell = gameState.board[row][col];
 
@@ -374,17 +378,9 @@ function updateStatusMessage() {
   if (gameState.status === GAME_STATUS.WON) {
     statusMessageElement.textContent = 'Перемога! 🎉';
     statusMessageElement.className = 'minesweeper__status minesweeper__status--win';
-    if (!gameState.isResultShown) {
-      alert('Перемога! 🎉 Ви відкрили всі безпечні клітинки.');
-      gameState.isResultShown = true;
-    }
   } else if (gameState.status === GAME_STATUS.LOST) {
     statusMessageElement.textContent = 'Програш 💥';
     statusMessageElement.className = 'minesweeper__status minesweeper__status--lose';
-    if (!gameState.isResultShown) {
-      alert('Програш 💥 Ви натиснули на міну.');
-      gameState.isResultShown = true;
-    }
   } else if (gameState.status === GAME_STATUS.PLAYING) {
     statusMessageElement.textContent = 'Гра триває...';
     statusMessageElement.className = 'minesweeper__status';
