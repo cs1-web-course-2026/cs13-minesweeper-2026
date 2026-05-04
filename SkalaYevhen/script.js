@@ -58,7 +58,10 @@ function initGame() {
   updateMinesDisplay();
 
   const messageEl = document.getElementById('game-message');
-  if (messageEl) messageEl.textContent = '';
+  if (messageEl) {
+    messageEl.textContent = '';
+    messageEl.classList.remove('show'); 
+  }
 
   // Створюємо порожнє логічне поле (без мін)
   gameState.field = [];
@@ -274,8 +277,9 @@ function gameOver(status) {
     ? 'Вітаємо! Ви перемогли!'
     : 'Ви підірвалися на міні! Гра закінчена.';
 
-  const messageEl = document.getElementById('game-message');
+const messageEl = document.getElementById('game-message');
   if (messageEl) {
     messageEl.textContent = message;
+    messageEl.classList.add('show'); 
   }
 }
