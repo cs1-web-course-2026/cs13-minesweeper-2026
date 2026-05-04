@@ -109,7 +109,7 @@ body {
     border-right: 3px solid #808080;
 }
 
-/* СТАН: Відкрита клітинка (пласка) */
+
 .cell.open {
     background-color: #c0c0c0;
     border: 1px solid #808080;
@@ -132,3 +132,26 @@ body {
 .cell[data-number="6"] { color: teal; }
 .cell[data-number="7"] { color: black; }
 .cell[data-number="8"] { color: gray; }
+#game-message {
+    display: none; 
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    background-color: #c0c0c0;
+    padding: 30px 40px;
+    border-top: 3px solid #ffffff;
+    border-left: 3px solid #ffffff;
+    border-bottom: 3px solid #808080;
+    border-right: 3px solid #808080;
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    z-index: 1000; 
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.4);
+}
+
+#game-message.show {
+    display: block;
+}
