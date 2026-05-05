@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="game-header">
+        <div class="game-header__title">Minesweeper</div>
+        <div class="game-header__status">
+          <div class="status-block" aria-label="Таймер">
+            <span class="status-block__label">Час</span>
+            <span id="timer" class="status-block__value">00:00</span>
+          </div>
+          <div class="status-block" aria-label="Прапорці">
+            <span class="status-block__label">Прапорці</span>
+            <span id="flags-left" class="status-block__value">0</span>
+          </div>
+          <button id="restart" class="button button--primary" type="button">Старт</button>
+        </div>
+      </header>
+
+      <main class="game-main">
+        <div id="banner" class="banner" role="status" aria-live="polite"></div>
+        <div class="board-wrap">
+          <div id="board" class="game-grid" aria-label="Ігрове поле"></div>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
