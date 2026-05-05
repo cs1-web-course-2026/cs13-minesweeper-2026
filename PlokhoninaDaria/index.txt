@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <title>Лабораторна 1 - Сапер</title>
@@ -7,12 +7,12 @@
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
+    <main class="container">
+        <header class="header">
             <div class="info">Прапорці: 10</div>
             <button class="start-button">Нова гра</button>
             <div class="info">Час: 00:00</div>
-        </div>
+        </header>
 
         <div class="grid">
             <div class="cell closed"></div>
@@ -30,7 +30,7 @@
             <div class="cell closed"></div>
             <div class="cell closed"></div>
         </div>
-    </div>
+    </main>
 
 </body>
 </html>
