@@ -97,3 +97,51 @@ body {
 .mine-hit::after {
     content: "💣";
 }
+
+.status {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.number-1 {
+    color: blue;
+    font-weight: bold;
+}
+
+.number-2 {
+    color: green;
+    font-weight: bold;
+}
+
+.number-3 {
+    color: red;
+    font-weight: bold;
+}
+
+.number-4 {
+    color: darkblue;
+    font-weight: bold;
+}
+
+.number-5 {
+    color: brown;
+    font-weight: bold;
+}
+
+.number-6 {
+    color: turquoise;
+    font-weight: bold;
+}
+
+.number-7 {
+    color: black;
+    font-weight: bold;
+}
+
+.number-8 {
+    color: gray;
+    font-weight: bold;
+}

@@ -43,8 +43,11 @@ function generateField(rows, cols, minesCount) {
 /* -------------------- ПІДРАХУНОК МІН -------------------- */
 
 function countNeighbourMines(field) {
-  for (let r = 0; r < gameState.rows; r++) {
-    for (let c = 0; c < gameState.cols; c++) {
+  const rows = field.length;
+  const cols = field[0].length;
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
 
       if (field[r][c].type === 'mine') continue;
 
@@ -57,8 +60,8 @@ function countNeighbourMines(field) {
           const nc = c + dc;
 
           if (
-            nr >= 0 && nr < gameState.rows &&
-            nc >= 0 && nc < gameState.cols &&
+            nr >= 0 && nr < rows &&
+            nc >= 0 && nc < cols &&
             field[nr][nc].type === 'mine'
           ) {
             count++;
@@ -83,7 +86,9 @@ function openCell(field, r, c) {
   if (cell.type === 'mine') {
     gameState.status = 'lose';
     stopTimer();
-    alert("Game Over");
+
+    document.getElementById("status").textContent = "Game Over";
+   
     return;
   }
 
@@ -132,44 +137,88 @@ function stopTimer() {
 
 /* -------------------- РЕНДЕР ПОЛЯ -------------------- */
 
+function checkWin() {
+  let openedCells = 0;
+
+  gameState.field.forEach(row => {
+    row.forEach(cell => {
+      if (cell.state === "opened") {
+        openedCells++;
+      }
+    });
+  });
+
+  const totalSafeCells =
+    gameState.rows * gameState.cols - gameState.minesCount;
+
+  if (openedCells === totalSafeCells) {
+    gameState.status = "win";
+    stopTimer();
+    document.getElementById("status").textContent = "You Win!";
+  }
+}
+
 function renderField() {
   const fieldEl = document.getElementById("field");
   fieldEl.innerHTML = "";
 
-  const flaggedCount = gameState.field.flat().filter(cell => cell.state === 'flagged').length;
-  document.getElementById("flags").textContent = gameState.minesCount - flaggedCount;
+  const flaggedCount = gameState.field
+    .flat()
+    .filter(cell => cell.state === "flagged").length;
+
+  document.getElementById("flags").textContent =
+    gameState.minesCount - flaggedCount;
 
   gameState.field.forEach((row, r) => {
     row.forEach((cell, c) => {
+      const button = document.createElement("button");
 
-      const div = document.createElement("div");
-      div.classList.add("cell", cell.state);
+      button.type = "button";
+      button.classList.add("cell", cell.state);
+
+      button.setAttribute(
+        "aria-label",
+        `Cell ${r + 1}-${c + 1}`
+      );
 
       if (cell.state === "opened" && cell.type === "mine") {
-        div.classList.add("mine");
+        button.classList.add("mine");
       }
 
       if (cell.state === "flagged") {
-        div.classList.add("flag");
+        button.classList.add("flag");
       }
 
-      // ЛКМ
-      div.addEventListener("click", () => {
-        if (gameState.status !== 'process') return;
+      if (
+        cell.state === "opened" &&
+        cell.type !== "mine" &&
+        cell.neighborMines > 0
+      ) {
+        button.textContent = cell.neighborMines;
+
+        button.classList.add(
+          `number-${cell.neighborMines}`
+        );
+      }
+
+      button.addEventListener("click", () => {
+        if (gameState.status !== "process") return;
+
         openCell(gameState.field, r, c);
+        checkWin();
         renderField();
       });
 
-      // ПКМ
-      div.addEventListener("contextmenu", (e) => {
+      button.addEventListener("contextmenu", (e) => {
         e.preventDefault();
-        if (gameState.status !== 'process') return;
+
+        if (gameState.status !== "process") return;
+
         toggleFlag(gameState.field, r, c);
         renderField();
       });
 
-      fieldEl.appendChild(div);
-
+      fieldEl.appendChild(button);
     });
   });
 }
@@ -177,6 +226,8 @@ function renderField() {
 /* -------------------- СТАРТ -------------------- */
 
 function initGame() {
+  stopTimer();
+
   gameState.field = generateField(
     gameState.rows,
     gameState.cols,
@@ -188,15 +239,16 @@ function initGame() {
   gameState.gameTime = 0;
   gameState.status = 'process';
 
+  document.getElementById("timer").textContent = 0;
+  document.getElementById("status").textContent = "";
+
   renderField();
   startTimer();
 }
 
-/* кнопка рестарта */
+/* запуск */
 document.getElementById("restart").addEventListener("click", () => {
-  stopTimer();
   initGame();
 });
 
-/* запуск */
 initGame();
