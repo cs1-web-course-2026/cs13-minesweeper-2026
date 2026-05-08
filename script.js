@@ -22,6 +22,7 @@ const DIFFICULTY = {
   hard:   { rows: 16, cols: 16, mines: 40 },
 };
 
+
 const gameState = {
   rows: 8,
   cols: 8,
@@ -30,8 +31,9 @@ const gameState = {
   time: 0,
   board: [],
   intervalId: null,
-  firstClick: true, 
+  firstClick: true,
 };
+
 
 const boardElement = document.getElementById('board');
 const statusElement = document.getElementById('gameStatus');
@@ -65,7 +67,6 @@ function placeMines(board, mineCount, safeRow, safeCol) {
     const row = Math.floor(Math.random() * rows);
     const col = Math.floor(Math.random() * cols);
 
-    // гарантуємо що перша клітинка та сусіди безпечні
     if (Math.abs(row - safeRow) <= 1 && Math.abs(col - safeCol) <= 1) continue;
 
     if (board[row][col].type !== CELL_CONTENT.MINE) {
@@ -96,6 +97,7 @@ function countNeighbourMines(board) {
     }
   }
 }
+
 
 function renderBoard() {
   boardElement.style.gridTemplateRows = `repeat(${gameState.rows}, 1fr)`;
@@ -140,10 +142,10 @@ function renderBoard() {
   }
 }
 
+
 function handleCellClick(row, col) {
   if (gameState.status !== GAME_STATUS.PLAYING) return;
 
-  // генерація мін після першого кліку
   if (gameState.firstClick) {
     placeMines(gameState.board, gameState.mineCount, row, col);
     countNeighbourMines(gameState.board);
@@ -160,6 +162,7 @@ function handleCellRightClick(row, col) {
   toggleFlag(row, col);
   refreshUI();
 }
+
 
 function openCell(row, col) {
   const cell = gameState.board[row][col];
@@ -187,11 +190,13 @@ function openCell(row, col) {
   checkWinCondition();
 }
 
+
 function toggleFlag(row, col) {
   const cell = gameState.board[row][col];
   if (cell.state === CELL_STATE.OPENED) return;
   cell.state = cell.state === CELL_STATE.FLAGGED ? CELL_STATE.CLOSED : CELL_STATE.FLAGGED;
 }
+
 
 function revealMines() {
   for (let row = 0; row < gameState.rows; row++) {
@@ -203,6 +208,7 @@ function revealMines() {
     }
   }
 }
+
 
 function checkWinCondition() {
   let allSafeOpened = true;
@@ -221,6 +227,7 @@ function checkWinCondition() {
   }
 }
 
+
 function startTimer() {
   stopTimer();
   gameState.intervalId = setInterval(() => {
@@ -237,18 +244,10 @@ function stopTimer() {
   }
 }
 
+
 function refreshUI() {
   statusElement.textContent = gameState.status;
   statusElement.className = '';
   if (gameState.status === GAME_STATUS.WON) statusElement.classList.add('status-win');
   if (gameState.status === GAME_STATUS.LOST) statusElement.classList.add('status-lose');
-  timerElement.textContent = gameState.time;
-  mineCountElement.textContent = gameState.mineCount;
-  renderBoard();
-}
-
-function setDifficulty(value) {
-  const diff = DIFFICULTY[value];
-  gameState.rows = diff.rows;
-  gameState.cols = diff.cols;
-  gameState.mineCount = diff.m
+  timerElement.textContent = gameState.time
