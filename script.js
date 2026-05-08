@@ -1,4 +1,3 @@
-
 const CELL_STATE = {
   CLOSED: 'closed',
   OPENED: 'opened',
@@ -34,7 +33,6 @@ const gameState = {
   firstClick: true,
 };
 
-
 const boardElement = document.getElementById('board');
 const statusElement = document.getElementById('gameStatus');
 const timerElement = document.getElementById('timer');
@@ -57,6 +55,7 @@ function createEmptyBoard(rows, cols) {
   }
   return board;
 }
+
 
 function placeMines(board, mineCount, safeRow, safeCol) {
   const rows = board.length;
@@ -97,7 +96,6 @@ function countNeighbourMines(board) {
     }
   }
 }
-
 
 function renderBoard() {
   boardElement.style.gridTemplateRows = `repeat(${gameState.rows}, 1fr)`;
@@ -142,7 +140,6 @@ function renderBoard() {
   }
 }
 
-
 function handleCellClick(row, col) {
   if (gameState.status !== GAME_STATUS.PLAYING) return;
 
@@ -162,7 +159,6 @@ function handleCellRightClick(row, col) {
   toggleFlag(row, col);
   refreshUI();
 }
-
 
 function openCell(row, col) {
   const cell = gameState.board[row][col];
@@ -190,13 +186,11 @@ function openCell(row, col) {
   checkWinCondition();
 }
 
-
 function toggleFlag(row, col) {
   const cell = gameState.board[row][col];
   if (cell.state === CELL_STATE.OPENED) return;
   cell.state = cell.state === CELL_STATE.FLAGGED ? CELL_STATE.CLOSED : CELL_STATE.FLAGGED;
 }
-
 
 function revealMines() {
   for (let row = 0; row < gameState.rows; row++) {
@@ -208,7 +202,6 @@ function revealMines() {
     }
   }
 }
-
 
 function checkWinCondition() {
   let allSafeOpened = true;
@@ -227,7 +220,6 @@ function checkWinCondition() {
   }
 }
 
-
 function startTimer() {
   stopTimer();
   gameState.intervalId = setInterval(() => {
@@ -244,10 +236,8 @@ function stopTimer() {
   }
 }
 
-
 function refreshUI() {
   statusElement.textContent = gameState.status;
   statusElement.className = '';
   if (gameState.status === GAME_STATUS.WON) statusElement.classList.add('status-win');
-  if (gameState.status === GAME_STATUS.LOST) statusElement.classList.add('status-lose');
-  timerElement.textContent = gameState.time
+  if (gameState.status
