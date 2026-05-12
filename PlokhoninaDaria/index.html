@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Лабораторна №2: Сапер (Логіка)</title>
+    <title>Лабораторна №2-3: Сапер</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,6 +13,8 @@
             <button class="start-button" onclick="initGame()">Нова гра</button>
             <div class="info">Час: <span id="timer">00:00</span></div>
         </header>
+
+        <div id="game-message" aria-live="polite" style="text-align: center; margin: 10px; font-weight: bold; min-height: 1.2em;"></div>
 
         <div class="grid" id="game-grid"></div>
     </main>

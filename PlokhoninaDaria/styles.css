@@ -5,17 +5,20 @@ body {
     padding-top: 50px;
     background-color: #f0f0f0;
 }
+
 .container {
     background-color: #cccccc;
     padding: 10px;
     border: 2px solid #000000;
 }
+
 .header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
     align-items: center;
 }
+
 .info {
     background: #000;
     color: #fff;
@@ -24,6 +27,7 @@ body {
     min-width: 60px;
     text-align: center;
 }
+
 .start-button {
     padding: 5px 10px;
     cursor: pointer;
@@ -45,15 +49,29 @@ body {
     font-weight: bold;
     cursor: pointer;
     user-select: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-family: inherit;
+    font-size: 16px;
 }
+
 .cell.closed {
     border: 3px solid;
     border-color: #ffffff #777777 #777777 #ffffff;
+    box-sizing: border-box;
 }
 .cell.open {
     background-color: #eeeeee;
     border: 1px solid #999999;
+    box-sizing: border-box;
+    cursor: default; 
 }
+
 .cell.bomb-red {
-    background-color: red;
+    background-color: red !important;
+}
+.cell:focus {
+    outline: 2px solid yellow;
+    outline-offset: -4px;
 }
