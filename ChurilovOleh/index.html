@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper UI</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- Хедер гри: таймер, кнопка, лічильник -->
+        <header class="game-header">
+            <div class="mines-count" id="mines-display" title="Залишилось мін">010</div>
+            <button class="reset-button" aria-label="Почати нову гру">🙂</button>
+            <div class="timer" id="timer-display" title="Час гри">000</div>
+        </header>
+
+        <!-- Ігрове поле: сітка 9х9 (всього 81 клітинка) -->
+        <main class="game-board">
+            <!-- Рядок 1: Закриті та відкриті клітинки з цифрами -->
+            <button class="cell"></button>
+            <button class="cell opened text-1">1</button>
+            <button class="cell opened text-2">2</button>
+            <button class="cell opened"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+
+            <!-- Рядок 2: Демонстрація мін та прапорців для оцінювання -->
+            <button class="cell flagged" title="Прапорець на міні або без"></button>
+            <button class="cell flagged-wrong" title="Неправильний прапорець"></button>
+            <button class="cell mine" title="Звичайна міна"></button>
+            <button class="cell mine-exploded" title="Міна, на яку натиснули"></button>
+            <button class="cell opened text-3">3</button>
+            <button class="cell opened text-4">4</button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+
+            <!-- Рядки 3-9: Звичайні закриті клітинки для масовки (інші 63 штуки) -->
+            <button class="cell"></button></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+        </main>
+    </div>
+
+</body>
+</html>
+
