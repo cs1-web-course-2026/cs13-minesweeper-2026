@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper DOM</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <header class="game-header">
+            <!-- Додали id для лічильника прапорців/мін -->
+            <div class="mines-count" id="mines-display" title="Залишилось мін">015</div>
+            <button class="reset-button" id="reset-btn" aria-label="Почати нову гру">🙂</button>
+            <!-- Додали id для таймера -->
+            <div class="timer" id="timer-display" title="Час гри">000</div>
+        </header>
+
+        <!-- Порожнє поле, яке заповниться динамічно -->
+        <main class="game-board" id="game-board"></main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
