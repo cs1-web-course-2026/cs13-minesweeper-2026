@@ -1,0 +1,94 @@
+.gameContainer {
+    background-color: #bdbdbd;
+    padding: 10px;
+    border: 3px solid;
+    border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    display: inline-block;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    user-select: none;
+    margin: 20px auto;
+}
+
+.gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #bdbdbd;
+    padding: 8px;
+    border: 3px solid;
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+    margin-bottom: 10px;
+}
+
+.displayBox {
+    background-color: #000000;
+    color: #ff0000;
+    font-size: 24px;
+    padding: 2px 6px;
+    border: 2px solid;
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+    min-width: 60px;
+    text-align: center;
+}
+
+.resetButton {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    background-color: #bdbdbd;
+    border: 3px solid;
+    border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+}
+
+.resetButton:active {
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(10, 30px);
+    border: 3px solid;
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: #bdbdbd;
+    border: 3px solid;
+    border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+}
+
+.cellOpened {
+    border: 1px solid #7b7b7b;
+    background-color: #bdbdbd;
+}
+
+.cellFlagged::before { content: "🚩"; font-size: 14px; }
+.cellMine::before { content: "💣"; font-size: 14px; }
+.cellMineExploded { background-color: #ff0000; border: 1px solid #7b7b7b; }
+.cellMineExploded::before { content: "💥"; font-size: 14px; }
+
+.text1 { color: blue; }
+.text2 { color: green; }
+.text3 { color: red; }
+.text4 { color: darkblue; }
+.text5 { color: maroon; }
+.text6 { color: turquoise; }
+.text7 { color: black; }
+.text8 { color: gray; }
