@@ -17,7 +17,8 @@ function generateField(rows, cols, minesCount) {
       row.push({
         type: 'empty',
         state: 'closed',
-        neighborMines: 0
+        neighborMines: 0,
+        element: null
       });
     }
     gameState.field.push(row);
@@ -58,15 +59,15 @@ function renderGrid() {
   if (!grid) return;
   
   grid.style.gridTemplateColumns = `repeat(${gameState.cols}, 40px)`;
-  grid.innerHTML = '';
+  grid.innerHTML = ''; 
 
   gameState.field.forEach((row, r) => {
     row.forEach((cell, c) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'cell closed';
-      btn.setAttribute('data-row', r);
-      btn.setAttribute('data-col', c);
+      
+      cell.element = btn; 
 
       btn.onclick = () => { 
         openCell(r, c); 
@@ -83,14 +84,16 @@ function renderGrid() {
     });
   });
 }
+
 function syncUI() {
   const flagsCountElem = document.getElementById('flags-count');
   if (flagsCountElem) {
     flagsCountElem.innerText = gameState.minesCount - gameState.flagsUsed;
   }
+
   gameState.field.forEach((row, r) => {
     row.forEach((cell, c) => {
-      const btn = document.querySelector(`[data-row="${r}"][data-col="${c}"]`);
+      const btn = cell.element;
       if (!btn) return;
 
       let label = `Клітинка ${r + 1}, ${c + 1}. `;
@@ -105,13 +108,14 @@ function syncUI() {
           label += 'Міна. Вибух.';
         } else if (cell.neighborMines > 0) {
           btn.innerText = cell.neighborMines;
-          btn.classList.add(`count-${cell.neighborMines}`); // Клас для стилізації кольору цифри
+          btn.className = `cell open count-${cell.neighborMines}`; // Клас кольору цифри
           label += `Кількість мін поруч: ${cell.neighborMines}`;
         } else {
           btn.innerText = '';
           label += 'Порожня відкрита клітинка';
         }
       } else if (cell.state === 'flagged') {
+        btn.className = 'cell closed';
         btn.innerText = '🚩';
         label += 'Позначено прапорцем';
       } else {
@@ -141,7 +145,6 @@ function openCell(r, c) {
 
   cell.state = 'opened';
 
-  // Рекурсивне відкриття сусідніх порожніх клітинок
   if (cell.neighborMines === 0) {
     for (let dr = -1; dr <= 1; dr++) {
       for (let dc = -1; dc <= 1; dc++) {
@@ -226,7 +229,7 @@ function initGame() {
   if (timerElem) timerElem.innerText = "00:00";
   
   generateField(gameState.rows, gameState.cols, gameState.minesCount);
-  renderGrid();
+  renderGrid(); 
   syncUI();
   startTimer();
 }

@@ -90,12 +90,14 @@ body {
     background-color: red !important;
 }
 
-/* Колірна гама для цифр (як в оригінальному Сапері) */
 .count-1 { color: blue; }
 .count-2 { color: green; }
 .count-3 { color: red; }
 .count-4 { color: darkblue; }
 .count-5 { color: maroon; }
+.count-6 { color: teal; }
+.count-7 { color: black; }
+.count-8 { color: gray; }
 
 .cell:focus {
     outline: 2px solid yellow;
