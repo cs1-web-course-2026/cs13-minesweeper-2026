@@ -14,6 +14,17 @@ const gameState = {
 
 let gameBoard = [];
 
+const directions = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+];
+
 function generateField(rows, cols, minesCount) {
   gameBoard = [];
 
@@ -43,17 +54,6 @@ function generateField(rows, cols, minesCount) {
 }
 
 function countNeighbourMines() {
-  const directions = [
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, -1],
-    [0, 1],
-    [1, -1],
-    [1, 0],
-    [1, 1],
-  ];
-
   for (let r = 0; r < gameState.rows; r++) {
     for (let c = 0; c < gameState.cols; c++) {
       if (gameBoard[r][c].type === 'mine') continue;
@@ -75,12 +75,10 @@ function countNeighbourMines() {
 }
 
 function renderBoard() {
-  // КРОК 1: Повністю видаляємо абсолютно всі старі кнопки з поля перед новим рендером
   while (board.firstChild) {
     board.removeChild(board.firstChild);
   }
 
-  // Налаштовуємо CSS Grid під розмір поля
   board.style.gridTemplateColumns = `repeat(${gameState.cols}, 30px)`;
   board.style.gridTemplateRows = `repeat(${gameState.rows}, 30px)`;
 
@@ -89,14 +87,12 @@ function renderBoard() {
       const cellData = gameBoard[r][c];
       const cellElement = document.createElement('button');
 
-      // Очищаємо класи та текст, щоб нічого не лишалося з минулої гри
       cellElement.className = 'cell';
       cellElement.textContent = '';
 
       cellElement.dataset.row = r;
       cellElement.dataset.col = c;
 
-      // Відображення візуального стану клітинки на основі Data Layer
       if (cellData.state === 'opened') {
         cellElement.classList.add('opened');
         if (cellData.type === 'mine') {
@@ -180,16 +176,6 @@ function openCell(row, col) {
   checkWinCondition();
 
   if (cell.neighborMines === 0) {
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ];
     for (let [dr, dc] of directions) {
       openCell(row + dr, col + dc);
     }
@@ -248,8 +234,7 @@ function initGame() {
   stopTimer();
   generateField(gameState.rows, gameState.cols, gameState.minesCount);
   startTimer();
-  renderBoard(); // Створюємо візуальне поле на старті гри [cite: 106]
+  renderBoard();
 }
 
 initGame();
-// console.log(gameBoard);
