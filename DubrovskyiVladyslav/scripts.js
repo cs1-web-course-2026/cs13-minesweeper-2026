@@ -21,6 +21,8 @@ class Minesweeper {
     reset() {
         this.status = Minesweeper.STATUS.PROCESS;
         this.gameTime = 0;
+        this.firstMoveMade = false; // Додаємо прапорець першого ходу
+
         if (this.timerId) {
             clearInterval(this.timerId);
         }
@@ -32,7 +34,7 @@ class Minesweeper {
         this.boardElement.style.gridTemplateColumns = `repeat(${this.cols}, var(--cell-size, 30px))`;
         this.boardElement.style.gridTemplateRows = `repeat(${this.rows}, var(--cell-size, 30px))`;
 
-        this._startTimer();
+        // ПРИБРАНО: this._startTimer();
         this.render();
         this.updateUI();
     }
@@ -67,22 +69,24 @@ class Minesweeper {
             }
 
             const neighbors = this._getNeighbors(row, col);
-            this.field[row][col].neighborMines = neighbors.filter(([nRow, nCol]) =>
-                this.field[nRow][nCol].type === Minesweeper.CELL_TYPE.MINE
+            // Замінено nRow та nCol на neighbourRow та neighbourCol
+            this.field[row][col].neighborMines = neighbors.filter(([neighbourRow, neighbourCol]) =>
+                this.field[neighbourRow][neighbourCol].type === Minesweeper.CELL_TYPE.MINE
             ).length;
         });
     }
 
     _getNeighbors(row, col) {
         const neighbors = [];
-        for (let dRow = -1; dRow <= 1; dRow++) {
-            for (let dCol = -1; dCol <= 1; dCol++) {
-                if (dRow === 0 && dCol === 0) {
+        // Замінено dRow/dCol на directionalRow/directionalCol
+        for (let directionalRow = -1; directionalRow <= 1; directionalRow++) {
+            for (let directionalCol = -1; directionalCol <= 1; directionalCol++) {
+                if (directionalRow === 0 && directionalCol === 0) {
                     continue;
                 }
 
-                const neighbourRow = row + dRow;
-                const neighbourCol = col + dCol;
+                const neighbourRow = row + directionalRow;
+                const neighbourCol = col + directionalCol;
 
                 if (neighbourRow >= 0 && neighbourRow < this.rows && neighbourCol >= 0 && neighbourCol < this.cols) {
                     neighbors.push([neighbourRow, neighbourCol]);
@@ -149,6 +153,13 @@ class Minesweeper {
 
     openCell(row, col) {
         if (this.status !== Minesweeper.STATUS.PROCESS) return;
+
+        // Запускаємо таймер при першому виклику openCell
+        if (!this.firstMoveMade) {
+            this.firstMoveMade = true;
+            this._startTimer();
+        }
+
         const cell = this.field[row][col];
         if (cell.state !== Minesweeper.CELL_STATE.CLOSED) return;
 
