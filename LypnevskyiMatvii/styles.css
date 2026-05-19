@@ -1,4 +1,3 @@
-/* Базові стилі сторінки */
 *,
 *::before,
 *::after {
@@ -7,7 +6,7 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   background: linear-gradient(135deg, #f4f1ea, #e8dfcf);
   color: #2f2b24;
 }
@@ -21,10 +20,9 @@ body {
   padding: 16px;
 }
 
-/* Хедер гри */
 .game-header {
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -37,8 +35,8 @@ body {
 }
 
 .game-header__title {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 740;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #5a4a38;
@@ -48,7 +46,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
 }
 
 .status-block {
@@ -58,7 +56,7 @@ body {
   border-radius: 10px;
   background: #fffaf0;
   border: 1px solid rgba(0, 0, 0, 0.05);
-  min-width: 90px;
+  min-width: 110px;
 }
 
 .status-block__label {
@@ -75,7 +73,6 @@ body {
   color: #3a332a;
 }
 
-/* Кнопка нової гри */
 .button {
   border: none;
   cursor: pointer;
@@ -86,9 +83,9 @@ body {
 }
 
 .button--primary {
-  background-color: #f29b2b; /* теплий помаранчевий */
+  background-color: #f29b2b;
   color: #2f2417;
-  font-weight: 600;
+  font-weight: 650;
   box-shadow: 0 6px 14px rgba(242, 155, 43, 0.45);
 }
 
@@ -107,10 +104,9 @@ body {
   outline-offset: 2px;
 }
 
-/* Основна частина гри */
 .game-main {
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
   padding: 12px;
   background: rgba(255, 255, 255, 0.65);
   border-radius: 18px;
@@ -118,62 +114,54 @@ body {
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-/* Повідомлення Win/Lose */
-.message {
-  width: 100%;
+.banner {
+  min-height: 24px;
+  padding: 8px 10px;
   margin-bottom: 10px;
-  padding: 10px 12px;
   border-radius: 12px;
   font-weight: 650;
-  letter-spacing: 0.01em;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #fffaf0;
-  color: #3a332a;
+  color: #2f2b24;
 }
 
-.message--hidden {
-  display: none;
+.banner--win {
+  background: rgba(66, 160, 89, 0.16);
+  border: 1px solid rgba(66, 160, 89, 0.25);
 }
 
-.message--win {
-  background: #eef7ef;
-  border-color: rgba(42, 127, 59, 0.25);
-  color: #205f2c;
+.banner--lose {
+  background: rgba(220, 73, 58, 0.14);
+  border: 1px solid rgba(220, 73, 58, 0.25);
 }
 
-.message--lose {
-  background: #fbefee;
-  border-color: rgba(192, 57, 43, 0.25);
-  color: #7b241c;
+.board-wrap {
+  background: rgba(255, 255, 255, 0.55);
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.message--info {
-  background: #fffaf0;
-}
-
-/* Ігрове поле: сітка з клітинок 10x10 */
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(var(--cols, 10), 1fr);
   gap: 4px;
   width: 100%;
   aspect-ratio: 1 / 1;
+  touch-action: manipulation;
 }
 
-/* Базовий вигляд клітинки */
 .cell {
-  position: relative;
-  border-radius: 6px;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
+  font-weight: 800;
+  font-size: 0.95rem;
   user-select: none;
-  transition: transform 0.04s ease, box-shadow 0.08s ease, background-color 0.12s ease, color 0.12s ease;
+  background: linear-gradient(135deg, #d3c4a7, #b7a48a);
+  color: transparent;
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
+  transition: transform 0.04s ease, box-shadow 0.08s ease, background-color 0.12s ease;
 }
 
 .cell:focus-visible {
@@ -186,31 +174,17 @@ body {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
 }
 
-/* 4. СТАНИ КЛІТИНОК */
-
-/* Закрита клітинка */
-.cell--closed {
-  background: linear-gradient(135deg, #d3c4a7, #b7a48a);
-  color: transparent;
-}
-
 .cell--closed:hover {
   background: linear-gradient(135deg, #ddcfb4, #c3b29a);
 }
 
-/* Відкрита клітинка */
 .cell--open {
+  cursor: default;
   background: #f6efe3;
   color: #2f2b24;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 
-/* Кольори цифр (як у класичному сапері, але без синього/фіолетового як основи) */
-.cell--open:nth-child(10n + 1) { color: #2a7f3b; }  /* 1 - зелений */
-.cell--open:nth-child(10n + 2) { color: #e67e22; }  /* 2 - помаранчевий */
-.cell--open:nth-child(10n + 3) { color: #c0392b; }  /* 3 - червоний */
-
-/* Клітинка з прапорцем (на міні та без неї) */
 .cell--flag {
   background: linear-gradient(135deg, #fdf7e3, #f4e6c4);
   box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18), inset 0 0 0 1px rgba(0, 0, 0, 0.08);
@@ -222,12 +196,6 @@ body {
   color: #d35400;
 }
 
-/* Прапорець на міні (для візуалізації, фон більш насичений */
-.cell--flag-on-mine {
-  background: linear-gradient(135deg, #fbe3c2, #f0c591);
-}
-
-/* Клітинка з міною (звичайна) */
 .cell--mine {
   background: #4a4035;
 }
@@ -237,10 +205,8 @@ body {
   font-size: 1.1rem;
 }
 
-/* Клітинка з міною, на яку натиснув користувач */
 .cell--mine-hit {
   background: radial-gradient(circle at 30% 30%, #ffdc8b, #f15b40 40%, #3b1c16 75%);
-  animation: mine-hit-pulse 0.8s ease-out both;
 }
 
 .cell--mine-hit::before {
@@ -248,53 +214,22 @@ body {
   font-size: 1.2rem;
 }
 
-@keyframes mine-hit-pulse {
-  0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(241, 91, 64, 0.7);
-  }
-  70% {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px 6px rgba(241, 91, 64, 0.4);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18);
-  }
-}
+.cell--n1 { color: #2a7f3b; }
+.cell--n2 { color: #e67e22; }
+.cell--n3 { color: #c0392b; }
+.cell--n4 { color: #8e44ad; }
+.cell--n5 { color: #7f1d1d; }
+.cell--n6 { color: #0f766e; }
+.cell--n7 { color: #1f2937; }
+.cell--n8 { color: #374151; }
 
-/* 5. Адаптивність */
-@media (max-width: 480px) {
-  .game-header {
-    padding: 12px 14px;
-  }
-
-  .game-header__title {
-    font-size: 1.1rem;
-  }
-
-  .status-block {
-    padding: 6px 8px;
-    min-width: 80px;
-  }
-
-  .status-block__value {
-    font-size: 1rem;
-  }
-
-  .button--primary {
-    padding-inline: 12px;
-    font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 360px) {
+@media (max-width: 520px) {
   .game-header__status {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .game-grid {
-    gap: 3px;
+  .status-block {
+    min-width: 0;
   }
 }
