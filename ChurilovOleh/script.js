@@ -1,60 +1,49 @@
-let gameState = {
-    rows: 10,
-    cols: 10,
-    minesCount: 15,
-    status: 'process', // 'process' | 'win' | 'lose'
-    gameTime: 0,
-    timerId: null,
-    board: [],
-    isFirstClick: true
-};
+function createInitialState(rows = 10, cols = 10, minesCount = 15) {
+    return {
+        rows,
+        cols,
+        minesCount,
+        status: 'process', // 'process' | 'win' | 'lose'
+        gameTime: 0,
+        board: [],
+        isFirstClick: true
+    };
+}
 
-// 1. Генерація поля та випадкове розставлення мін
 function generateField(rows, cols, minesCount) {
-    gameState.status = 'process';
-    gameState.gameTime = 0;
-    gameState.isFirstClick = true;
-    
-    if (gameState.timerId) {
-        clearInterval(gameState.timerId);
-        gameState.timerId = null;
-    }
+    const newState = createInitialState(rows, cols, minesCount);
+    const board = [];
 
-    // Створення порожньої сітки
-    gameState.board = [];
     for (let r = 0; r < rows; r++) {
         let row = [];
         for (let c = 0; c < cols; c++) {
             row.push({
-                type: 'empty',   // 'empty' або 'mine'
-                state: 'closed',  // 'closed', 'opened', 'flagged'
+                type: 'empty',   // 'empty' | 'mine'
+                state: 'closed',  // 'closed' | 'opened' | 'flagged'
                 neighborMines: 0,
                 row: r,
                 col: c
             });
         }
-        gameState.board.push(row);
+        board.push(row);
     }
 
-    // Розстановка мін через Math.random()
     let minesPlanted = 0;
     while (minesPlanted < minesCount) {
         const randomRow = Math.floor(Math.random() * rows);
         const randomCol = Math.floor(Math.random() * cols);
 
-        if (gameState.board[randomRow][randomCol].type === 'mine') {
-            continue;
+        if (board[randomRow][randomCol].type !== 'mine') {
+            board[randomRow][randomCol].type = 'mine';
+            minesPlanted++;
         }
-
-        gameState.board[randomRow][randomCol].type = 'mine';
-        minesPlanted++;
     }
 
-    calculateAllNeighbors();
+    newState.board = board;
+    return calculateAllNeighbors(newState);
 }
 
-// Пошук сусідніх клітинок (в межах поля)
-function getNeighbours(r, c) {
+function getNeighbours(board, r, c, rows, cols) {
     const neighbours = [];
     for (let dr = -1; dr <= 1; dr++) {
         for (let dc = -1; dc <= 1; dc++) {
@@ -63,125 +52,109 @@ function getNeighbours(r, c) {
             const newRow = r + dr;
             const newCol = c + dc;
 
-            if (newRow >= 0 && newRow < gameState.rows && newCol >= 0 && newCol < gameState.cols) {
-                neighbours.push(gameState.board[newRow][newCol]);
+            if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+                neighbours.push(board[newRow][newCol]);
             }
         }
     }
     return neighbours;
 }
 
-// Запуск підрахунку мін для всього поля
-function calculateAllNeighbors() {
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            if (gameState.board[r][c].type === 'empty') {
-                gameState.board[r][c].neighborMines = countNeighbourMines(r, c);
+function calculateAllNeighbors(state) {
+    const nextState = JSON.parse(JSON.stringify(state));
+    
+    for (let r = 0; r < nextState.rows; r++) {
+        for (let c = 0; c < nextState.cols; c++) {
+            if (nextState.board[r][c].type === 'empty') {
+                nextState.board[r][c].neighborMines = countNeighbourMines(nextState.board, r, c, nextState.rows, nextState.cols);
             }
         }
     }
+    return nextState;
 }
 
-// 2. Підрахунок мін у 8 сусідніх позиціях
-function countNeighbourMines(r, c) {
-    const neighbours = getNeighbours(r, c);
+function countNeighbourMines(board, r, c, rows, cols) {
+    const neighbours = getNeighbours(board, r, c, rows, cols);
     return neighbours.filter(cell => cell.type === 'mine').length;
 }
 
-// 3. Логіка відкриття клітинки та рекурсія
-function openCell(r, c) {
-    let cell = gameState.board[r][c];
+function openCell(state, r, c) {
+    if (state.status !== 'process') return state;
 
-    if (cell.state === 'opened' || cell.state === 'flagged' || gameState.status !== 'process') {
-        return;
-    }
+    let nextState = JSON.parse(JSON.stringify(state));
+    let cell = nextState.board[r][c];
 
-    if (gameState.isFirstClick) {
-        gameState.isFirstClick = false;
-        startTimer();
+    if (cell.state === 'opened' || cell.state === 'flagged') return state;
+
+    if (nextState.isFirstClick) {
+        nextState.isFirstClick = false;
     }
 
     if (cell.type === 'mine') {
         cell.state = 'opened';
-        endGame('lose');
-        return;
+        nextState.status = 'lose';
+        return revealMines(nextState);
     }
 
     cell.state = 'opened';
 
-    // Рекурсивне відкриття порожніх сусідів
     if (cell.neighborMines === 0) {
-        const neighbours = getNeighbours(r, c);
+        const neighbours = getNeighbours(nextState.board, r, c, nextState.rows, nextState.cols);
         neighbours.forEach(neighbour => {
             if (neighbour.state === 'closed') {
-                openCell(neighbour.row, neighbour.col);
+                nextState = openCell(nextState, neighbour.row, neighbour.col);
             }
         });
     }
 
-    checkWinCondition();
+    return checkWinCondition(nextState);
 }
 
-// Перевірка, чи відкриті всі порожні клітинки
-function checkWinCondition() {
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            if (gameState.board[r][c].type === 'empty' && gameState.board[r][c].state !== 'opened') {
-                return;
+function checkWinCondition(state) {
+    for (let r = 0; r < state.rows; r++) {
+        for (let c = 0; c < state.cols; c++) {
+            if (state.board[r][c].type === 'empty' && state.board[r][c].state !== 'opened') {
+                return state;
             }
         }
     }
-    endGame('win');
+    state.status = 'win';
+    return state;
 }
 
-// Завершення гри та зупинка таймера
-function endGame(finalStatus) {
-    gameState.status = finalStatus;
-    clearInterval(gameState.timerId);
-    
-    if (finalStatus === 'win') {
-        console.log("Вітаємо з перемогою! 🎉");
-    } else {
-        console.log("Бум! Ви програли. 💥");
-        revealMines();
-    }
-}
-
-// Відкриття всіх мін після програшу
-function revealMines() {
-    gameState.board.forEach(row => {
+function revealMines(state) {
+    state.board.forEach(row => {
         row.forEach(cell => {
             if (cell.type === 'mine') cell.state = 'opened';
         });
     });
+    return state;
 }
 
-// 4. Інтерактив: встановлення та зняття прапорця
-function toggleFlag(row, col) {
-    if (gameState.status !== 'process') return;
+function toggleFlag(state, row, col) {
+    if (state.status !== 'process') return state;
 
-    let cell = gameState.board[row][col];
-    if (cell.state === 'opened') return;
+    const nextState = JSON.parse(JSON.stringify(state));
+    let cell = nextState.board[row][col];
+    
+    if (cell.state === 'opened') return state;
 
     if (cell.state === 'closed') {
         cell.state = 'flagged';
     } else if (cell.state === 'flagged') {
         cell.state = 'closed';
     }
+
+    return nextState;
 }
 
-// Щосекундне оновлення лічильника часу
-function startTimer() {
-    if (gameState.timerId) return;
+function incrementGameTime(state) {
+    if (state.status !== 'process' || state.isFirstClick) return state;
     
-    gameState.timerId = setInterval(() => {
-        gameState.gameTime++;
-        if (gameState.gameTime >= 999) {
-            clearInterval(gameState.timerId);
-        }
-    }, 1000);
+    const nextState = JSON.parse(JSON.stringify(state));
+    if (nextState.gameTime < 999) {
+        nextState.gameTime++;
+    }
+    return nextState;
 }
 
-// Первинний запуск генерації поля 10х10 з 15 мінами
-generateField(gameState.rows, gameState.cols, gameState.minesCount);
-console.log("Логіку Сапера успішно ініціалізовано!", gameState);
