@@ -9,6 +9,17 @@ const gameState = {
 
 let gameBoard = [];
 
+const directions = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+];
+
 function generateField(rows, cols, minesCount) {
   for (let i = 0; i < rows; i++) {
     let row = [];
@@ -36,17 +47,6 @@ function generateField(rows, cols, minesCount) {
 }
 
 function countNeighbourMines() {
-  const directions = [
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-    [0, -1],
-    [0, 1],
-    [1, -1],
-    [1, 0],
-    [1, 1],
-  ];
-
   for (let r = 0; r < gameState.rows; r++) {
     for (let c = 0; c < gameState.cols; c++) {
       if (gameBoard[r][c].type === 'mine') continue;
@@ -95,17 +95,6 @@ function openCell(row, col) {
   checkWinCondition();
 
   if (cell.neighborMines === 0) {
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ];
-
     for (let [dr, dc] of directions) {
       openCell(row + dr, col + dc);
     }
@@ -169,4 +158,3 @@ function initGame() {
 }
 
 initGame();
-console.log(gameBoard);
