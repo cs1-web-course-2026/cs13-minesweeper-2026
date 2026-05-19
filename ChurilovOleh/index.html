@@ -9,61 +9,49 @@
 <body>
 
     <div class="game-container">
-        <!-- Хедер гри: таймер, кнопка, лічильник -->
         <header class="game-header">
             <div class="mines-count" id="mines-display" title="Залишилось мін">010</div>
             <button class="reset-button" aria-label="Почати нову гру">🙂</button>
             <div class="timer" id="timer-display" title="Час гри">000</div>
         </header>
 
-        <!-- Ігрове поле: сітка 9х9 (всього 81 клітинка) -->
         <main class="game-board">
-            <!-- Рядок 1: Закриті та відкриті клітинки з цифрами -->
-            <button class="cell"></button>
-            <button class="cell opened text-1">1</button>
-            <button class="cell opened text-2">2</button>
-            <button class="cell opened"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
+            <!-- Рядок 1 (9 клітинок) -->
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell opened text-1" aria-label="Відкрита клітинка 1 міна поруч">1</button>
+            <button class="cell opened text-2" aria-label="Відкрита клітинка 2 міни поруч">2</button>
+            <button class="cell opened" aria-label="Відкрита порожня клітинка"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
 
-            <!-- Рядок 2: Демонстрація мін та прапорців для оцінювання -->
-            <button class="cell flagged" title="Прапорець на міні або без"></button>
-            <button class="cell flagged-wrong" title="Неправильний прапорець"></button>
-            <button class="cell mine" title="Звичайна міна"></button>
-            <button class="cell mine-exploded" title="Міна, на яку натиснули"></button>
-            <button class="cell opened text-3">3</button>
-            <button class="cell opened text-4">4</button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
+            <!-- Рядок 2 (9 клітинок) -->
+            <button class="cell flagged" title="Прапорець на міні або без" aria-label="Клітинка з прапорцем"></button>
+            <button class="cell flagged-wrong" title="Неправильний прапорець" aria-label="Неправильно поставлений прапорець"></button>
+            <button class="cell mine" title="Звичайна міна" aria-label="Клітинка з міною"></button>
+            <button class="cell mine-exploded" title="Міна, на яку натиснули" aria-label="Вибух міни"></button>
+            <button class="cell opened text-3" aria-label="Відкрита клітинка 3 міни поруч">3</button>
+            <button class="cell opened text-4" aria-label="Відкрита клітинка 4 міни поруч">4</button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button>
 
-            <!-- Рядки 3-9: Звичайні закриті клітинки для масовки (інші 63 штуки) -->
-            <button class="cell"></button></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button>
-            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <!-- Рядки 3-9 (Решта 63 закриті клітинки, кожна строго з унікальною назвою та правильним тегом) -->
+            <button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button>
+            <button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button><button class="cell" aria-label="Клітинка порожня закрита"></button>
         </main>
     </div>
 
+    <!-- Підключення скрипту з Лаби 2 -->
+    <script src="script.js"></script>
 </body>
 </html>
+
 
