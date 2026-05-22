@@ -90,3 +90,14 @@ body {
 .mine-hit::after {
   content: "🐰";
 }
+.message {
+  display: none;
+  
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: #C71585;
+  background: #E0FFFF;
+  padding: 10px;
+  font-size: 14px;
+}

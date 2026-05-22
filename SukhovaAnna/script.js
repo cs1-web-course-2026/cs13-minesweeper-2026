@@ -1,3 +1,4 @@
+const messageElement = document.querySelector(".message");
 const fieldElement = document.querySelector(".field");
 const counterElement = document.querySelector(".counter");
 const timerElement = document.querySelector(".timer");
@@ -9,12 +10,13 @@ const gameState = {
     minesCount: 10,
     status: "process",
     gameTime: 0,
-    timerId: null
+    timerId: null,
+    firstClick: true
 };
 
 let field = [];
 
-function generateField(rows, cols, minesCount) {
+function generateField(rows, cols, minesCount, safeRow, safeCol) {
     const newField = [];
 
     for (let row = 0; row < rows; row++) {
@@ -37,7 +39,12 @@ function generateField(rows, cols, minesCount) {
         const row = Math.floor(Math.random() * rows);
         const col = Math.floor(Math.random() * cols);
 
-        if (newField[row][col].type !== "mine") {
+        const isSafeCell = row === safeRow && col === safeCol;
+
+        if (
+            newField[row][col].type !== "mine" &&
+            !isSafeCell
+        ) {
             newField[row][col].type = "mine";
             placedMines++;
         }
@@ -96,13 +103,27 @@ function openCell(row, col) {
         return;
     }
 
+    startTimer();
+
+    if (gameState.firstClick) {
+        field = generateField(
+            gameState.rows,
+            gameState.cols,
+            gameState.minesCount,
+            row,
+            col
+        );
+
+        countNeighbourMines();
+
+        gameState.firstClick = false;
+    }
+
     const cell = field[row][col];
 
     if (cell.state === "opened" || cell.state === "flagged") {
         return;
     }
-
-    startTimer();
 
     cell.state = "opened";
 
@@ -111,6 +132,8 @@ function openCell(row, col) {
         stopTimer();
         openAllMines();
         restartButton.textContent = "😵";
+        messageElement.style.display = "block";
+        messageElement.textContent = "Гру закінчено! Ви натрапили на міну.";
         renderField();
         return;
     }
@@ -166,6 +189,8 @@ function checkWin() {
         gameState.status = "win";
         stopTimer();
         restartButton.textContent = "😎";
+        messageElement.style.display = "block";
+        messageElement.textContent = "Вітаю! Ви перемогли.";
     }
 }
 
@@ -261,16 +286,20 @@ function restartGame() {
 
     gameState.status = "process";
     gameState.gameTime = 0;
+    gameState.firstClick = true;
 
     restartButton.textContent = "😝";
+
+    messageElement.textContent = "";
+    messageElement.style.display = "none";
 
     field = generateField(
         gameState.rows,
         gameState.cols,
-        gameState.minesCount
+        0,
+        -1,
+        -1
     );
-
-    countNeighbourMines();
 
     updateTimer();
     updateCounter();
