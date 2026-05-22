@@ -32,8 +32,8 @@ body {
 }
 .field {
   display: grid;
-  grid-template-columns: repeat(6, 30px);
-  grid-template-rows: repeat(5, 30px);
+  grid-template-columns: repeat(9, 30px);
+  grid-template-rows: repeat(9, 30px);
   gap: 2px;
 }
 .cell {
