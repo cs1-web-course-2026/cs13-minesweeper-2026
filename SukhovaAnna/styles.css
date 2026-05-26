@@ -37,17 +37,18 @@ body {
   gap: 2px;
 }
 .cell {
-  width: 30px;
-  height: 30px;
-  box-sizing: border-box;
-
-  display: grid;
-  place-items: center;
-
-  font-size: 18px;
-  user-select: none;
-}
-.cell.closed {
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    user-select: none;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    font-family: inherit;
+}.cell.closed {
   background: #EE82EE;
   border-top: 2px solid white;
   border-left: 2px solid white;
@@ -65,31 +66,7 @@ body {
   background: #FF00FF;
   border: 2px solid #8B008B;
 }
-.flag {
-  background: #bbb;
-  position: relative;
-}
 
-.flag::after {
-  content: "🌸";
-;
-}
-.mine {
-  background: #FF00FF;
-}
-
-.mine::after {
-  content: "🐰";
-  position: absolute;
-}
-.cell.mine-hit {
-  background: red;
-  border: 1px solid #FF00FF;
-}
-
-.mine-hit::after {
-  content: "🐰";
-}
 .message {
   display: none;
   
