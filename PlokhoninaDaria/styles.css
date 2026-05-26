@@ -10,6 +10,7 @@ body {
     background-color: #cccccc;
     padding: 10px;
     border: 2px solid #000000;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
 }
 
 .header {
@@ -21,24 +22,35 @@ body {
 
 .info {
     background: #000;
-    color: #fff;
-    padding: 3px 8px;
-    font-size: 14px;
+    color: #00ff00;
+    font-family: monospace;
+    padding: 4px 10px;
+    font-size: 16px;
     min-width: 60px;
     text-align: center;
+    border: 2px inset #fff;
 }
 
 .start-button {
-    padding: 5px 10px;
+    padding: 5px 15px;
     cursor: pointer;
     font-weight: bold;
+    background-color: #eee;
+    border: 3px solid;
+    border-color: #ffffff #777777 #777777 #ffffff;
 }
+
+.start-button:active {
+    border-color: #777777 #ffffff #ffffff #777777;
+}
+
 .grid {
     display: grid;
     gap: 2px;
     background-color: #777;
-    border: 2px solid #777;
+    border: 3px inset #fff;
 }
+
 .cell {
     width: 40px;
     height: 40px;
@@ -53,7 +65,7 @@ body {
     margin: 0;
     border: none;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .cell.closed {
@@ -61,6 +73,12 @@ body {
     border-color: #ffffff #777777 #777777 #ffffff;
     box-sizing: border-box;
 }
+
+.cell.closed:active:not([disabled]) {
+    border: 1px solid #999999;
+    background-color: #aaaaaa;
+}
+
 .cell.open {
     background-color: #eeeeee;
     border: 1px solid #999999;
@@ -71,6 +89,16 @@ body {
 .cell.bomb-red {
     background-color: red !important;
 }
+
+.count-1 { color: blue; }
+.count-2 { color: green; }
+.count-3 { color: red; }
+.count-4 { color: darkblue; }
+.count-5 { color: maroon; }
+.count-6 { color: teal; }
+.count-7 { color: black; }
+.count-8 { color: gray; }
+
 .cell:focus {
     outline: 2px solid yellow;
     outline-offset: -4px;
