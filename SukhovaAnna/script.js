@@ -1,3 +1,21 @@
+const CELL_TYPES = {
+    EMPTY: "empty",
+    MINE: "mine"
+};
+
+const CELL_STATES = {
+    CLOSED: "closed",
+    OPENED: "opened",
+    FLAGGED: "flagged"
+};
+
+const GAME_STATUSES = {
+    PROCESS: "process",
+    WIN: "win",
+    LOSE: "lose"
+};
+
+const messageElement = document.querySelector(".message");
 const fieldElement = document.querySelector(".field");
 const counterElement = document.querySelector(".counter");
 const timerElement = document.querySelector(".timer");
@@ -7,12 +25,12 @@ const gameState = {
     rows: 9,
     cols: 9,
     minesCount: 10,
-    status: "process",
+    status: GAME_STATUSES.PROCESS,
     gameTime: 0,
-    timerId: null
+    timerId: null,
+    firstClick: true,
+    field: []
 };
-
-let field = [];
 
 function generateField(rows, cols, minesCount) {
     const newField = [];
@@ -37,8 +55,8 @@ function generateField(rows, cols, minesCount) {
         const row = Math.floor(Math.random() * rows);
         const col = Math.floor(Math.random() * cols);
 
-        if (newField[row][col].type !== "mine") {
-            newField[row][col].type = "mine";
+        if (newField[row][col].type !== CELL_TYPES.MINE) {
+            newField[row][col].type = CELL_TYPES.MINE;
             placedMines++;
         }
     }
@@ -49,7 +67,7 @@ function generateField(rows, cols, minesCount) {
 function countNeighbourMines() {
     for (let row = 0; row < gameState.rows; row++) {
         for (let col = 0; col < gameState.cols; col++) {
-            if (field[row][col].type === "mine") {
+            if (gameState.field[row][col].type === "mine") {
                 continue;
             }
 
@@ -60,12 +78,12 @@ function countNeighbourMines() {
                 const nRow = neighbour.row;
                 const nCol = neighbour.col;
 
-                if (field[nRow][nCol].type === "mine") {
+            if (gameState.field[nRow][nCol].type === CELL_TYPES.MINE) {
                     mines++;
                 }
             }
 
-            field[row][col].neighborMines = mines;
+            gameState.field[row][col].neighborMines = mines;
         }
     }
 }
@@ -96,7 +114,7 @@ function openCell(row, col) {
         return;
     }
 
-    const cell = field[row][col];
+    const cell = gameState.field[row][col];
 
     if (cell.state === "opened" || cell.state === "flagged") {
         return;
@@ -132,7 +150,7 @@ function toggleFlag(row, col) {
         return;
     }
 
-    const cell = field[row][col];
+    const cell = gameState.field[row][col];
 
     if (cell.state === "opened") {
         return;
@@ -156,7 +174,7 @@ function checkWin() {
 
     for (let row = 0; row < gameState.rows; row++) {
         for (let col = 0; col < gameState.cols; col++) {
-            if (field[row][col].state === "opened") {
+            if (gameState.field[row][col].state === "opened") {
                 openedCells++;
             }
         }
@@ -172,8 +190,8 @@ function checkWin() {
 function openAllMines() {
     for (let row = 0; row < gameState.rows; row++) {
         for (let col = 0; col < gameState.cols; col++) {
-            if (field[row][col].type === "mine") {
-                field[row][col].state = "opened";
+            if (gameState.field[row][col].type === "mine") {
+                gameState.field[row][col].state = "opened";
             }
         }
     }
@@ -204,7 +222,7 @@ function updateCounter() {
 
     for (let row = 0; row < gameState.rows; row++) {
         for (let col = 0; col < gameState.cols; col++) {
-            if (field[row][col].state === "flagged") {
+            if (gameState.field[row][col].state === "flagged") {
                 flagsCount++;
             }
         }
@@ -218,9 +236,10 @@ function renderField() {
 
     for (let row = 0; row < gameState.rows; row++) {
         for (let col = 0; col < gameState.cols; col++) {
-            const cell = field[row][col];
-            const cellElement = document.createElement("div");
-
+            const cell = gameState.field[row][col];
+            const cellElement = document.createElement("button");
+            cellElement.type = "button";
+            cellElement.setAttribute("aria-label", `Cell ${row + 1}, ${col + 1}`);
             cellElement.classList.add("cell");
 
             if (cell.state === "closed") {
@@ -264,7 +283,7 @@ function restartGame() {
 
     restartButton.textContent = "😝";
 
-    field = generateField(
+    gameState.field = generateField(        
         gameState.rows,
         gameState.cols,
         gameState.minesCount
