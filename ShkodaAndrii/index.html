@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer type="module"></script>
+    <title>Minesweeper [1.0]</title>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <div class="counter flag-counter" title="Кількість прапорців">010</div>
+        <button class="start-btn" aria-label="Почати нову гру">▶</button>
+        <div class="counter timer" title="Таймер">000</div>
+      </header>
+
+      <main class="board">
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+
+        <button class="cell opened"></button>
+        <button class="cell opened" data-value="1">1</button>
+        <button class="cell opened" data-value="2">2</button>
+        <button class="cell opened" data-value="3">3</button>
+
+        <button class="cell flag">🚩</button>
+
+        <button class="cell flag false-match">❌</button>
+
+        <button class="cell mine">💣</button>
+
+        <button class="cell mine-hit">🔥</button>
+
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell opened" data-value="1">1</button>
+        <button class="cell opened"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell mine-hit">🔥</button>
+        <button class="cell"></button>
+        <button class="cell opened" data-value="4">4</button>
+        <button class="cell"></button>
+        <button class="cell flag">🚩</button>
+      </main>
+    </div>
+  </body>
+</html>
