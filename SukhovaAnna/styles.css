@@ -38,27 +38,44 @@ body {
 }
 
 .cell {
-  width: 30px;
-  height: 30px;
-  box-sizing: border-box;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-  user-select: none;
-  cursor: pointer;
-  padding: 0;
-  font-family: inherit;
-}
-
-.cell.closed {
+    width: 30px;
+    height: 30px;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    user-select: none;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    font-family: inherit;
+}.cell.closed {
   background: #EE82EE;
   border-top: 2px solid white;
   border-left: 2px solid white;
   border-right: 2px solid #FF00FF;
   border-bottom: 2px solid #8B008B;
+  cursor: pointer;
 }
-
-.cell.opened {
+.cell {
+  width: 30px;
+  height: 30px;
+  background: #bbb;
+  border: 2px solid #eee;
+}
+.opened {
   background: #FF00FF;
   border: 2px solid #8B008B;
+}
+
+.message {
+  display: none;
+  
+  margin-top: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: #C71585;
+  background: #E0FFFF;
+  padding: 10px;
+  font-size: 14px;
 }
