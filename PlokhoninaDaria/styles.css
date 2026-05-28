@@ -1,0 +1,105 @@
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+    background-color: #f0f0f0;
+}
+
+.container {
+    background-color: #cccccc;
+    padding: 10px;
+    border: 2px solid #000000;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.info {
+    background: #000;
+    color: #00ff00;
+    font-family: monospace;
+    padding: 4px 10px;
+    font-size: 16px;
+    min-width: 60px;
+    text-align: center;
+    border: 2px inset #fff;
+}
+
+.start-button {
+    padding: 5px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #eee;
+    border: 3px solid;
+    border-color: #ffffff #777777 #777777 #ffffff;
+}
+
+.start-button:active {
+    border-color: #777777 #ffffff #ffffff #777777;
+}
+
+.grid {
+    display: grid;
+    gap: 2px;
+    background-color: #777;
+    border: 3px inset #fff;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    background-color: #bbbbbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-family: inherit;
+    font-size: 18px;
+}
+
+.cell.closed {
+    border: 3px solid;
+    border-color: #ffffff #777777 #777777 #ffffff;
+    box-sizing: border-box;
+}
+
+.cell.closed:active:not([disabled]) {
+    border: 1px solid #999999;
+    background-color: #aaaaaa;
+}
+
+.cell.open {
+    background-color: #eeeeee;
+    border: 1px solid #999999;
+    box-sizing: border-box;
+    cursor: default; 
+}
+
+.cell.bomb-red {
+    background-color: red !important;
+}
+
+.count-1 { color: blue; }
+.count-2 { color: green; }
+.count-3 { color: red; }
+.count-4 { color: darkblue; }
+.count-5 { color: maroon; }
+.count-6 { color: teal; }
+.count-7 { color: black; }
+.count-8 { color: gray; }
+
+.cell:focus {
+    outline: 2px solid yellow;
+    outline-offset: -4px;
+}

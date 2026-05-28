@@ -36,6 +36,7 @@ body {
   grid-template-rows: repeat(9, 30px);
   gap: 2px;
 }
+
 .cell {
     width: 30px;
     height: 30px;

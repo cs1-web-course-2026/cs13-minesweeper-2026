@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Мінне поле</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="game-header">
+      <div class="game-header__title">Мінне поле</div>
+      <div class="game-header__status">
+        <div class="status-block">
+          <span class="status-block__label">Час</span>
+          <span id="timer" class="status-block__value">0</span>
+        </div>
+        <div class="status-block">
+          <span class="status-block__label">Прапорці</span>
+          <span id="flags-count" class="status-block__value">0</span>
+        </div>
+        <button id="start-restart" class="button button--primary">Старт</button>
+      </div>
+    </header>
+
+    <main class="game-main">
+      <div id="message" class="message message--hidden" role="status" aria-live="polite"></div>
+      <div id="grid" class="game-grid" aria-label="Ігрове поле"></div>
+    </main>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

@@ -87,7 +87,7 @@ function countNeighbourMines() {
                 }
             }
 
-            field[row][col].neighborMines = mines;
+            gameState.field[row][col].neighborMines = mines;
         }
     }
 }
@@ -173,7 +173,7 @@ function toggleFlag(row, col) {
         return;
     }
 
-    const cell = field[row][col];
+    const cell = gameState.field[row][col];
 
     if (cell.state === CELL_STATES.OPENED) {
         return;

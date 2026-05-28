@@ -1,0 +1,144 @@
+/* Базове скидання та адаптивність */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace; /* Ретро шрифт */
+    font-weight: bold;
+}
+
+body {
+    background-color: #4a4a4a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Контейнер гри */
+.game-container {
+    background-color: #bdbdbd;
+    padding: 10px;
+    border: 3px solid;
+    border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    max-width: 100%;
+}
+
+/* Хедер (Панель стану) */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #bdbdbd;
+    padding: 8px;
+    border: 3px solid;
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+    margin-bottom: 10px;
+}
+
+/* Табло таймера та мін */
+.mines-count, .timer {
+    background-color: #000000;
+    color: #ff0000;
+    font-size: 24px;
+    padding: 2px 6px;
+    border: 2px solid;
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Кнопка Смайлик */
+.reset-button {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    background-color: #bdbdbd;
+    border: 3px solid;
+    border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reset-button:active {
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+}
+
+/* Ігрове поле сітка */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(9, 30px);
+    grid-template-rows: repeat(9, 30px);
+    gap: 0;
+    border: 3px solid;
+    border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
+    overflow-x: auto; /* Адаптивність для малих екранів */
+}
+
+/* Базова закрита клітинка */
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: #bdbdbd;
+    border: 3px solid;
+    border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Стан: Відкрита пуста клітинка */
+.cell.opened {
+    border: 1px solid #7b7b7b;
+    background-color: #bdbdbd;
+}
+
+/* Кольори цифр (як в оригіналі) */
+.text-1 { color: blue; }
+.text-2 { color: green; }
+.text-3 { color: red; }
+.text-4 { color: darkblue; }
+
+/* Стан: Клітинка з прапорцем */
+.cell.flagged::before {
+    content: "🚩";
+    font-size: 14px;
+}
+
+/* Стан: Неправильний прапорець (після програшу) */
+.cell.flagged-wrong::before {
+    content: "❌";
+    font-size: 14px;
+}
+
+/* Стан: Звичайна міна (відкрита в кінці гри) */
+.cell.mine {
+    background-color: #bdbdbd;
+    border: 1px solid #7b7b7b;
+}
+.cell.mine::before {
+    content: "💣";
+    font-size: 14px;
+}
+
+/* Стан: Міна, на якій підірвалися */
+.cell.mine-exploded {
+    background-color: #ff0000;
+    border: 1px solid #7b7b7b;
+}
+.cell.mine-exploded::before {
+    content: "💥";
+    font-size: 14px;
+}
+
+/* Ефект наведення на закриту клітинку */
+.cell:not(.opened):hover {
+    background-color: #d2d2d2;
+}
