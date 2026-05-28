@@ -3,8 +3,9 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Courier New', Courier, monospace; /* Ретро шрифт */
+    font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+    user-select: none; /* Заборона виділення тексту при швидких кліках */
 }
 
 body {
@@ -16,17 +17,14 @@ body {
     padding: 20px;
 }
 
-/* Контейнер гри */
 .game-container {
     background-color: #bdbdbd;
     padding: 10px;
     border: 3px solid;
     border-color: #ffffff #7b7b7b #7b7b7b #ffffff;
     box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-    max-width: 100%;
 }
 
-/* Хедер (Панель стану) */
 .game-header {
     display: flex;
     justify-content: space-between;
@@ -38,7 +36,6 @@ body {
     margin-bottom: 10px;
 }
 
-/* Табло таймера та мін */
 .mines-count, .timer {
     background-color: #000000;
     color: #ff0000;
@@ -50,7 +47,6 @@ body {
     text-align: center;
 }
 
-/* Кнопка Смайлик */
 .reset-button {
     font-size: 24px;
     width: 40px;
@@ -62,24 +58,23 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    outline: none;
 }
 
 .reset-button:active {
     border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
 }
 
-/* Ігрове поле сітка */
+/* Змінено на 10х10 за новим ТЗ */
 .game-board {
     display: grid;
-    grid-template-columns: repeat(9, 30px);
-    grid-template-rows: repeat(9, 30px);
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(10, 30px);
     gap: 0;
     border: 3px solid;
     border-color: #7b7b7b #ffffff #ffffff #7b7b7b;
-    overflow-x: auto; /* Адаптивність для малих екранів */
 }
 
-/* Базова закрита клітинка */
 .cell {
     width: 30px;
     height: 30px;
@@ -92,53 +87,31 @@ body {
     align-items: center;
     cursor: pointer;
     outline: none;
+    padding: 0;
 }
 
-/* Стан: Відкрита пуста клітинка */
+/* Стан: Відкрита клітинка (втиснута) */
 .cell.opened {
     border: 1px solid #7b7b7b;
     background-color: #bdbdbd;
 }
 
-/* Кольори цифр (як в оригіналі) */
+/* Кольори цифр Сапера */
 .text-1 { color: blue; }
 .text-2 { color: green; }
 .text-3 { color: red; }
 .text-4 { color: darkblue; }
+.text-5 { color: maroon; }
+.text-6 { color: turquoise; }
+.text-7 { color: black; }
+.text-8 { color: gray; }
 
-/* Стан: Клітинка з прапорцем */
-.cell.flagged::before {
-    content: "🚩";
-    font-size: 14px;
-}
+.cell.flagged::before { content: "🚩"; font-size: 14px; }
+.cell.mine::before { content: "💣"; font-size: 14px; }
+.cell.mine-exploded { background-color: #ff0000; border: 1px solid #7b7b7b; }
+.cell.mine-exploded::before { content: "💥"; font-size: 14px; }
 
-/* Стан: Неправильний прапорець (після програшу) */
-.cell.flagged-wrong::before {
-    content: "❌";
-    font-size: 14px;
-}
-
-/* Стан: Звичайна міна (відкрита в кінці гри) */
-.cell.mine {
-    background-color: #bdbdbd;
-    border: 1px solid #7b7b7b;
-}
-.cell.mine::before {
-    content: "💣";
-    font-size: 14px;
-}
-
-/* Стан: Міна, на якій підірвалися */
-.cell.mine-exploded {
-    background-color: #ff0000;
-    border: 1px solid #7b7b7b;
-}
-.cell.mine-exploded::before {
-    content: "💥";
-    font-size: 14px;
-}
-
-/* Ефект наведення на закриту клітинку */
-.cell:not(.opened):hover {
+.cell:not(.opened):not(.flagged):hover {
     background-color: #d2d2d2;
 }
+
