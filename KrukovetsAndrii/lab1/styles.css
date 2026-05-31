@@ -1,0 +1,188 @@
+:root {
+  --bg: #eef8f0;
+  --panel: #d8efd9;
+  --panel-dark: #8fbc8f;
+  --panel-light: #f6fff6;
+  --accent: #2f7d32;
+  --accent-dark: #1d5b26;
+  --danger: #b63a3a;
+  --text: #203124;
+  --cell-size: clamp(2rem, 4vw, 2.7rem);
+  --focus-ring: #1f8f47;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(circle at top, #f8fff8, var(--bg));
+  color: var(--text);
+}
+
+.app {
+  width: min(95vw, 36rem);
+  background: var(--panel);
+  border: 1px solid #7fae80;
+  border-radius: 0.9rem;
+  padding: 1rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+.game-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.counter {
+  min-width: 6.2rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #6f9f71;
+  border-radius: 0.6rem;
+  background-color: #f2fff3;
+  text-align: center;
+}
+
+.counter-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
+.counter-value {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--accent-dark);
+}
+
+.start-btn {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid #5e8c61;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background: linear-gradient(145deg, #fbfffb, #cae6cb);
+  color: var(--accent-dark);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(32, 49, 36, 0.2);
+}
+
+.start-btn:active {
+  transform: scale(0.96);
+}
+
+.board-wrap {
+  border: 1px solid #72a274;
+  border-radius: 0.65rem;
+  background: var(--panel-light);
+  padding: 0.7rem;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-size, 10), var(--cell-size));
+  grid-template-rows: repeat(var(--board-size, 10), var(--cell-size));
+  gap: 0.22rem;
+  justify-content: center;
+}
+
+.cell {
+  display: grid;
+  place-items: center;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 1px solid #88b489;
+  border-radius: 0.35rem;
+  background: linear-gradient(145deg, #f7fff7, #c9e3ca);
+  color: var(--text);
+  font-weight: 700;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  user-select: none;
+  cursor: pointer;
+  transition: background-color 0.12s ease, transform 0.1s ease;
+}
+
+.cell:hover {
+  background: #d6edd7;
+}
+
+.cell:focus-visible,
+.start-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.cell:active {
+  transform: scale(0.97);
+}
+
+.cell[data-state="open"] {
+  background: #e7f7e8;
+  border-color: #9dc89f;
+  cursor: default;
+}
+
+.cell[data-state="flagged"] {
+  color: #2b7f2f;
+  background: #d9f2da;
+}
+
+.cell[data-state="flaggedMine"] {
+  background: #cceccc;
+  color: #1d5b26;
+}
+
+.cell[data-state="mine"] {
+  background: #f2d7d7;
+  color: #8f1f1f;
+}
+
+.cell[data-state="triggeredMine"] {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.num-1 { color: #2f8f3a; }
+.num-2 { color: #2b5fbe; }
+.num-3 { color: #ba3f2f; }
+.num-4 { color: #6a3bb6; }
+.num-5 { color: #7f2f2f; }
+.num-6 { color: #2a8585; }
+.num-7 { color: #2f2f2f; }
+.num-8 { color: #5f5f5f; }
+
+@media (max-width: 520px) {
+  .app {
+    width: min(96vw, 28rem);
+    padding: 0.8rem;
+  }
+
+  .game-panel {
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .counter {
+    min-width: 5.2rem;
+    padding: 0.4rem 0.45rem;
+  }
+
+}
