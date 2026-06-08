@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper - 15x15</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-window">
+        <div class="header">
+            <div class="status-panel">
+                <span class="status-icon">🚩</span>
+                <div class="digital-display">010</div>
+            </div>
+
+            <button class="start-btn">Нова гра</button>
+
+            <div class="status-panel">
+                <span class="status-icon">⏱️</span>
+                <div class="digital-display">000</div>
+            </div>
+        </div>
+
+        <div class="board">
+            <div class="cell closed"></div> <div class="cell open"></div>   <div class="cell open" data-number="1">1</div> <div class="cell open" data-number="2">2</div> <div class="cell open" data-number="3">3</div> <div class="cell flagged">🚩</div> <div class="cell closed">💣</div>    <div class="cell clicked-mine">💣</div> <div class="cell closed">❌</div>
+        </div>
+</body>
+</html>
