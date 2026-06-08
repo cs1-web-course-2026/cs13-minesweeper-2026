@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n-title="appTitle">Minesweeper</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="game-panel" aria-label="Game controls">
+      <div class="counter" aria-live="polite">
+        <span class="counter-label" data-i18n="timerLabel">Час</span>
+        <span class="counter-value" id="timer">000</span>
+      </div>
+
+      <button class="start-btn" id="startBtn" type="button" aria-label="Start new game" data-i18n-aria="startButtonAria">
+        :)
+      </button>
+
+      <div class="counter" aria-live="polite">
+        <span class="counter-label" data-i18n="flagsLabel">Прапорці</span>
+        <span class="counter-value" id="flags">010</span>
+      </div>
+
+      <label class="language-select-wrap" for="languageSelect">
+        <span class="visually-hidden" data-i18n="languageLabel">Мова</span>
+        <select id="languageSelect" class="language-select" aria-label="Language">
+          <option value="uk">Українська</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="difficulty-panel" aria-label="Difficulty settings">
+      <label class="difficulty-field">
+        <span data-i18n="rowsLabel">Рядки</span>
+        <input id="rowsInput" class="difficulty-input" type="number" min="5" max="18" value="10">
+      </label>
+      <label class="difficulty-field">
+        <span data-i18n="colsLabel">Колонки</span>
+        <input id="colsInput" class="difficulty-input" type="number" min="5" max="18" value="10">
+      </label>
+      <label class="difficulty-field">
+        <span data-i18n="minesLabel">Міни</span>
+        <input id="minesInput" class="difficulty-input" type="number" min="1" max="99" value="15">
+      </label>
+      <button id="applyDifficultyBtn" class="apply-btn" type="button" data-i18n="applyDifficultyButton">
+        Застосувати
+      </button>
+      <p id="difficultyHint" class="difficulty-hint" aria-live="polite"></p>
+    </section>
+
+    <section class="board-wrap" aria-label="Game board">
+      <div class="board" id="board" role="grid" aria-label="Minesweeper board"></div>
+    </section>
+    <p id="gameMessage" class="game-message" aria-live="polite"></p>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
